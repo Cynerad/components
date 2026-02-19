@@ -1,0 +1,86 @@
+.shiki code {
+  counter-reset: step;
+  counter-increment: step 0;
+}
+
+.shiki .line {
+  position: relative;
+  z-index: 0;
+}
+
+.shiki code .line::before {
+  content: counter(step);
+  counter-increment: step;
+  width: 1rem;
+  margin-right: 1.5rem;
+  display: inline-block;
+  text-align: right;
+  color: rgba(115, 138, 148, 0.4);
+}
+
+.shiki .highlighted-line {
+  background-color: rgb(26, 68, 26);
+  border-left: 3px solid green;
+  margin-right: -1.5rem;
+  padding-right: 1.5rem;
+}
+
+.shiki .highlighted-line::before {
+  color: green;
+  font-weight: 600;
+}
+
+pre.shiki:has(.focus-line) code > span:not(.focus-line) {
+  filter: blur(3px);
+  opacity: 0.4;
+  transition:
+    filter 0.3s ease,
+    opacity 0.3s ease;
+}
+
+pre.shiki .focus-line {
+  filter: blur(0px);
+  opacity: 1;
+}
+
+pre.shiki:hover code > span:not(.focus-line) {
+  filter: blur(0px);
+  opacity: 1;
+}
+
+.shiki .diff.add,
+.shiki .diff.remove {
+  position: relative;
+}
+
+.shiki .diff.add::before {
+  content: "+" !important;
+}
+
+.shiki .diff.add:after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: -1rem;
+  right: -1rem;
+  background: rgb(34 197 94 / 0.15) !important;
+  border-left: 1px solid rgb(34 197 94 / 0.8);
+  z-index: -1;
+}
+
+.shiki .diff.remove:before {
+  content: "-" !important;
+}
+
+.shiki .diff.remove:after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: -1rem;
+  right: -1rem;
+  background: rgb(239 68 68 / 0.15) !important;
+  border-left: 1px solid rgb(239 68 68 / 0.8);
+  z-index: -1;
+}

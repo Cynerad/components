@@ -1,0 +1,23 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry.json",
+  "name": "@cynerad/components",
+  "homepage": "https://cynerad.github.io/components",
+  "description": "A collection of reusable UI components built with React and Tailwind CSS and shadcn.",
+  "items": [
+    {
+      "name": "code-block-command",
+      "type": "registry:hook",
+      "title": "Code Block Command",
+      "description": "A command to display code blocks with copy functionality.",
+      "registryDependencies": ["button", "tabs", "tooltip", "https://cynerad.github.io/support/public/r/support.json"],
+      "dependencies": ["lucide-react"],
+      "files": [
+        {
+          "path": "registry/code/code-block-command.tsx",
+          "type": "registry:component",
+          "target": "components/ui/code/code-block-command.tsx"
+        }
+      ]
+    }
+  ]
+}
