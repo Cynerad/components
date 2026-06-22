@@ -68,11 +68,19 @@ function isAfter(date1: dayjs.ConfigType, date2: dayjs.ConfigType): boolean {
   return dayjs(date1).isAfter(dayjs(date2));
 }
 
-function isSame(date1: dayjs.ConfigType, date2: dayjs.ConfigType, unit: dayjs.OpUnitType = "day"): boolean {
+function isSame(
+  date1: dayjs.ConfigType,
+  date2: dayjs.ConfigType,
+  unit: dayjs.OpUnitType = "day",
+): boolean {
   return dayjs(date1).isSame(dayjs(date2), unit);
 }
 
-function diff(date1: dayjs.ConfigType, date2: dayjs.ConfigType, unit: dayjs.OpUnitType = "day"): number {
+function diff(
+  date1: dayjs.ConfigType,
+  date2: dayjs.ConfigType,
+  unit: dayjs.OpUnitType = "day",
+): number {
   return Math.abs(dayjs(date1).diff(dayjs(date2), unit));
 }
 

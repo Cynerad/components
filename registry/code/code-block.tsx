@@ -1,16 +1,18 @@
 "use client";
 
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
+import { cn } from "@/lib/utils";
+import { transformerNotationDiff } from "@shikijs/transformers";
+import { Check, Copy, Ellipsis } from "lucide-react";
+import { DynamicIcon, iconNames } from "lucide-react/dynamic";
 import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";
-import { codeToHtml, bundledLanguages, bundledThemes, DecorationItem } from "shiki";
-import { DynamicIcon, iconNames } from "lucide-react/dynamic";
-import { Tooltip, TooltipContent, TooltipTrigger } from "../tooltip";
-import { Button } from "../button";
-import { Check, Copy, Ellipsis } from "lucide-react";
-import { cn, copyText } from "@/lib/utils";
+import { bundledLanguages, bundledThemes, codeToHtml, DecorationItem } from "shiki";
+
+import { copyToClipboard } from "@/lib/support/utils";
 import "./code.css";
-import { transformerNotationDiff } from "@shikijs/transformers";
-import { Badge } from "../badge";
 
 export type CodeBlockType = {
   code: string;
@@ -50,7 +52,7 @@ export function CodeBlock({ code, fileName, language, icon, themes, focus, highl
   function copyCommand() {
     if (!code) return;
 
-    copyText(code);
+    copyToClipboard(code);
     setHasCopied(true);
   }
 
@@ -124,15 +126,15 @@ export function CodeBlock({ code, fileName, language, icon, themes, focus, highl
 
   return (
     <div>
-      <div className="overflow-x-auto relative bg-accent rounded-t-sm">
-        <div className="border-border/50 flex items-center gap-2 border-b px-3 py-1">
-          <Badge variant="outline" className="rounded-sm px-2 py-1 text-xs">
+      <div className="overflow-x-auto relative bg-accent rounded-sm min-w-62.5">
+        <div className="border-border/50 flex items-center gap-2 border-b px-2 py-1">
+          <Badge variant="outline" className="rounded-sm px-3 py-1 text-sm">
             {icon && <DynamicIcon name={icon} className="h-6 w-5" />}
             {fileName}
           </Badge>
         </div>
 
-        <div className={cn("", isExpanded ? "max-h-full" : "max-h-[400px] overflow-hidden")}>
+        <div className={cn("", isExpanded ? "max-h-full" : "max-h-100 overflow-hidden")}>
           {highlightedCode ? (
             <div dangerouslySetInnerHTML={{ __html: highlightedCode }} />
           ) : (

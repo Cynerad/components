@@ -1,0 +1,84 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "typography",
+  "title": "typography",
+  "description": "A set of typegraphy components.",
+  "dependencies": [
+    "lucide-react"
+  ],
+  "files": [
+    {
+      "path": "registry/typography/blockquote.tsx",
+      "content": "import { cn } from \"@/lib/utils\";\nimport { ComponentProps } from \"react\";\n\nexport function Blockquote({ className, children, ...props }: ComponentProps<\"blockquote\">) {\n  return (\n    <blockquote className={cn(\"mt-6 border-l-2 pl-6 italic\", className)} {...props}>\n      {children}\n    </blockquote>\n  );\n}\n",
+      "type": "registry:component",
+      "target": "@components/typography/blockquote.tsx"
+    },
+    {
+      "path": "registry/typography/h1.tsx",
+      "content": "import { cn } from \"@/lib/utils\";\nimport { ComponentProps } from \"react\";\n\nexport function H1({ className, children, ...props }: ComponentProps<\"h1\">) {\n  return (\n    <h1 className={cn(\"scroll-m-20 text-4xl font-extrabold tracking-tight text-balance\", className)} {...props}>\n      {children}\n    </h1>\n  );\n}\n",
+      "type": "registry:component",
+      "target": "@components/typography/h1.tsx"
+    },
+    {
+      "path": "registry/typography/h2.tsx",
+      "content": "import { cn } from \"@/lib/utils\";\nimport { ComponentProps } from \"react\";\n\nexport function H2({ className, children, ...props }: ComponentProps<\"h2\">) {\n  return (\n    <h2 className={cn(\"scroll-m-20 border-b pb-2 text-3xl font-semibold tracking-tight first:mt-0\", className)} {...props}>\n      {children}\n    </h2>\n  );\n}\n",
+      "type": "registry:component",
+      "target": "@components/typography/h2.tsx"
+    },
+    {
+      "path": "registry/typography/h3.tsx",
+      "content": "import { cn } from \"@/lib/utils\";\nimport { ComponentProps } from \"react\";\n\nexport function H3({ className, children, ...props }: ComponentProps<\"h3\">) {\n  return (\n    <h3 className={cn(\"scroll-m-20 text-2xl font-semibold tracking-tight\", className)} {...props}>\n      {children}\n    </h3>\n  );\n}\n",
+      "type": "registry:component",
+      "target": "@components/typography/h3.tsx"
+    },
+    {
+      "path": "registry/typography/h4.tsx",
+      "content": "import { cn } from \"@/lib/utils\";\nimport { ComponentProps } from \"react\";\n\nexport function H4({ className, children, ...props }: ComponentProps<\"h4\">) {\n  return (\n    <h4 className={cn(\"scroll-m-20 text-xl font-semibold tracking-tight\", className)} {...props}>\n      {children}\n    </h4>\n  );\n}\n",
+      "type": "registry:component",
+      "target": "@components/typography/h4.tsx"
+    },
+    {
+      "path": "registry/typography/inline-code.tsx",
+      "content": "import { cn } from \"@/lib/utils\";\nimport { ComponentProps } from \"react\";\n\nexport function InlineCode({ className, children, ...props }: ComponentProps<\"code\">) {\n  return (\n    <code className={cn(\"bg-muted relative rounded px-[0.3rem] py-[0.2rem] font-mono text-sm font-semibold\", className)} {...props}>\n      {children}\n    </code>\n  );\n}\n",
+      "type": "registry:component",
+      "target": "@components/typography/inline-code.tsx"
+    },
+    {
+      "path": "registry/typography/large.tsx",
+      "content": "import { cn } from \"@/lib/utils\";\nimport { ComponentProps } from \"react\";\n\nexport function Large({ className, children, ...props }: ComponentProps<\"div\">) {\n  return (\n    <div className={cn(\"text-lg font-semibold\", className)} {...props}>\n      {children}\n    </div>\n  );\n}\n",
+      "type": "registry:component",
+      "target": "@components/typography/large.tsx"
+    },
+    {
+      "path": "registry/typography/lead.tsx",
+      "content": "import { cn } from \"@/lib/utils\";\nimport { ComponentProps } from \"react\";\n\nexport function Lead({ className, children, ...props }: ComponentProps<\"p\">) {\n  return (\n    <p className={cn(\"text-muted-foreground text-xl\", className)} {...props}>\n      {children}\n    </p>\n  );\n}\n",
+      "type": "registry:component",
+      "target": "@components/typography/lead.tsx"
+    },
+    {
+      "path": "registry/typography/list.tsx",
+      "content": "import { cn } from \"@/lib/utils\";\nimport { ComponentProps } from \"react\";\n\nexport function List({ className, children, ...props }: ComponentProps<\"ul\">) {\n  return (\n    <ul className={cn(\"my-6 ml-6 list-disc [&>li]:mt-2\", className)} {...props}>\n      {children}\n    </ul>\n  );\n}\n",
+      "type": "registry:component",
+      "target": "@components/typography/list.tsx"
+    },
+    {
+      "path": "registry/typography/muted.tsx",
+      "content": "import { cn } from \"@/lib/utils\";\nimport { ComponentProps } from \"react\";\n\nexport function Muted({ className, children, ...props }: ComponentProps<\"p\">) {\n  return (\n    <p className={cn(\"text-muted-foreground text-sm\", className)} {...props}>\n      {children}\n    </p>\n  );\n}\n",
+      "type": "registry:component",
+      "target": "@components/typography/muted.tsx"
+    },
+    {
+      "path": "registry/typography/p.tsx",
+      "content": "import { cn } from \"@/lib/utils\";\nimport { ComponentProps } from \"react\";\n\nexport function P({ className, children, ...props }: ComponentProps<\"h4\">) {\n  return (\n    <p className={cn(\"leading-7 not-first:mt-6\", className)} {...props}>\n      {children}\n    </p>\n  );\n}\n",
+      "type": "registry:component",
+      "target": "@components/typography/p.tsx"
+    },
+    {
+      "path": "registry/typography/small.tsx",
+      "content": "import { cn } from \"@/lib/utils\";\nimport { ComponentProps } from \"react\";\n\nexport function Small({ className, children, ...props }: ComponentProps<\"small\">) {\n  return (\n    <small className={cn(\"text-sm leading-none font-medium\", className)} {...props}>\n      {children}\n    </small>\n  );\n}\n",
+      "type": "registry:component",
+      "target": "@components/typography/small.tsx"
+    }
+  ],
+  "type": "registry:component"
+}

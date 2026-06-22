@@ -1,0 +1,45 @@
+"use server";
+
+import { api } from "@/lib/api";
+
+async function get{{blank-cap}}(parameters?: string):Promise<unknown> {
+  const response = await api.get<unknown>({
+    endpoint: "{{blank}}",
+  });
+
+  const json = await response.json();
+
+  return json;
+}
+
+async function store{{blank-cap}}(formData: FormData):Promise<unknown> {
+  const response = await api.post<unknown>({
+    endpoint: `/{{blank}}/create`,
+  });
+
+  const json = response.json();
+
+  return json;
+}
+
+async function update{{blank-cap}}({{blank}}Id : string | number,formData: FormData): Promise<unknown> {
+  const response = await api.put<unknown>({
+    endpoint: `/{{blank}}/${{{blank}}Id}`,
+  });
+
+  const json = response.json();
+
+  return json;
+}
+
+async function delete{{blank-cap}}({{blank}}Id: string | number): Promise<unknown> {
+  const response = await api.delete<unknown>({
+    endpoint: `/{{blank}}/${{{blank}}Id}`,
+  });
+
+  const json = response.json();
+
+  return json;
+}
+
+export { get{{blank-cap}}, store{{blank-cap}}, update{{blank-cap}}, delete{{blank-cap}} };

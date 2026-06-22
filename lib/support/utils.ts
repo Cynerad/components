@@ -16,9 +16,11 @@ function oldSchoolCopy(text: string): boolean {
   let success = false;
   try {
     success = document.execCommand("copy");
-  } catch (error) {
+  }
+  catch (error) {
     console.error("Failed to copy using execCommand:", error);
-  } finally {
+  }
+  finally {
     document.body.removeChild(tempTextArea);
   }
 
@@ -35,7 +37,8 @@ async function copyToClipboard(text: string) {
     try {
       await navigator.clipboard.writeText(text);
       return true;
-    } catch (error) {
+    }
+    catch (error) {
       console.warn("Clipboard API failed, falling back to execCommand:", error);
     }
   }
@@ -44,11 +47,14 @@ async function copyToClipboard(text: string) {
 }
 
 function isEmpty(value: unknown): boolean {
-  if (value === null || value === undefined) return true;
+  if (value === null || value === undefined)
+    return true;
 
-  if (typeof value === "string" || Array.isArray(value)) return value.length === 0;
+  if (typeof value === "string" || Array.isArray(value))
+    return value.length === 0;
 
-  if (typeof value === "object") return Object.keys(value).length === 0;
+  if (typeof value === "object")
+    return Object.keys(value).length === 0;
 
   return false;
 }
@@ -84,17 +90,21 @@ function throttle(callback: () => void, time: number = 200) {
   };
 }
 
-function once<T extends (...args: any[]) => any>(callback: T): T {
+function once<T extends (...args: Parameters<T>) => ReturnType<T>>(
+  callback: T,
+): T {
   let result: ReturnType<T>;
   let hasBeenCalled = false;
 
-  return function (this: any, ...args: Parameters<T>): ReturnType<T> {
+  function wrapped(...args: Parameters<T>): ReturnType<T> {
     if (!hasBeenCalled) {
-      result = callback.apply(this, args);
+      result = callback(...args);
       hasBeenCalled = true;
     }
     return result;
-  } as T;
+  }
+
+  return wrapped as T;
 }
 
 async function promise<TReturn, TError = never>(
@@ -103,7 +113,8 @@ async function promise<TReturn, TError = never>(
 ): Promise<TReturn | TError> {
   try {
     return await callback();
-  } catch (error: unknown) {
+  }
+  catch (error: unknown) {
     if (errorCallback) {
       return await errorCallback(error);
     }
@@ -118,40 +129,62 @@ function throwError(error: unknown): never {
     throw error;
   }
 
-  const message =
-    typeof error === "string"
+  const message
+    = typeof error === "string"
       ? error
       : error && typeof error === "object" && "message" in error
-        ? String((error as any).message)
+        ? String(error.message)
         : String(error);
 
   throw new Error(message);
 }
 
-function after<T extends (...args: any[]) => any>(n: number, func: T): T {
+function after<T extends (...args: Parameters<T>) => ReturnType<T>>(
+  n: number,
+  func: T,
+): T {
   let callCount = 0;
   let result: ReturnType<T>;
 
-  return function (this: any, ...args: Parameters<T>): ReturnType<T> | undefined {
+  function wrapper(...args: Parameters<T>): ReturnType<T> {
     callCount++;
     if (callCount >= n) {
-      result = func.apply(this, args);
+      result = func(...args);
     }
     return result;
-  } as T;
+  }
+
+  return wrapper as T;
 }
 
-function before<T extends (...args: any[]) => any>(n: number, func: T): T {
+function before<T extends (...args: Parameters<T>) => ReturnType<T>>(
+  n: number,
+  func: T,
+): T {
   let callCount = 0;
   let result: ReturnType<T>;
 
-  return function (this: any, ...args: Parameters<T>): ReturnType<T> | undefined {
+  function wrapped(...args: Parameters<T>): ReturnType<T> {
     if (callCount < n) {
-      result = func.apply(this, args);
+      result = func(...args);
     }
     callCount++;
     return result;
-  } as T;
+  }
+
+  return wrapped as T;
 }
 
-export { after, before, copyToClipboard, dd, debounce, isEmpty, once, promise, sleep, throttle, throwError };
+export {
+  after,
+  before,
+  copyToClipboard,
+  dd,
+  debounce,
+  isEmpty,
+  once,
+  promise,
+  sleep,
+  throttle,
+  throwError,
+};

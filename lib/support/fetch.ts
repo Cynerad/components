@@ -1,109 +1,241 @@
+import { log } from "@/lib/support/log";
 import { trim } from "@/lib/support/string";
 
-type QueryParams = string | Record<string, string | number | boolean | null | undefined> | string[][] | URLSearchParams;
+type Method = "GET" | "POST" | "PUT" | "PATCH" | "DELETE";
 
-type FetchClientConfig = {
+type CreateFetchClientType = {
   baseUrl: string;
-  headers?: HeadersInit;
+} & OptionsType
+& ExtraOptionsType
+& HooksType;
+
+type OptionsType = {
+  options?: RequestInit;
 };
 
-type ResponseType = "json" | "text" | "blob" | "arrayBuffer" | "response";
+type ExtraOptionsType = {
+  timeout?: number;
+  isDevModeEnabled?: boolean;
+};
 
-type RequestOptions = {
-  headers?: HeadersInit;
-  params?: QueryParams;
-  responseType?: ResponseType;
-} & Omit<RequestInit, "method" | "headers">;
+type onErrorType<T> = (response: Response) => T;
 
-class FetchError extends Error {
+type HooksType = {
+  middleware?: BeforeRequestType[];
+  beforeResponse?: BeforeResponseType[];
+};
+
+type BeforeRequestType = (config: RequestInit) => RequestInit;
+
+type BeforeResponseType = (response: Response) => Response;
+
+type CreateRequestType<ErrorT> = {
+  endpoint: string;
+  config?: OptionsType & ExtraOptionsType;
+  onError?: onErrorType<ErrorT>;
+};
+
+type ApiSuccess<T> = Omit<Response, "json"> & {
+  json: () => Promise<T>;
+};
+
+class ApiError extends Error {
   constructor(
     message: string,
     public status: number,
     public statusText: string,
-    public response: Response,
+    public data: unknown,
   ) {
     super(message);
-    this.name = "FetchError";
+    this.name = "ApiError";
   }
 }
 
-function createFetchClient({ baseUrl, headers: defaultHeaders = {} }: FetchClientConfig) {
-  const normalizeUrl = (path: string, params?: QueryParams): string => {
-    const cleanBase = trim(baseUrl, "/");
-    const cleanPath = trim(path, "/");
-    const url = new URL(`${cleanBase}/${cleanPath}`);
+const DEFAULT_TIMEOUT = 10000; // ms
+const DEFAULT_DEV_MODE_ENALBED = false;
 
-    if (params) {
-      url.search = params instanceof URLSearchParams ? params.toString() : new URLSearchParams(params as Record<string, string>).toString();
-    }
+class CreateFetchClient {
+  baseUrl: string = "";
+  config: RequestInit = {};
+  extraOptions: ExtraOptionsType = {};
+  middlewares: BeforeRequestType[] = [];
+  beforeResponses: BeforeResponseType[] = [];
 
-    return url.toString();
-  };
+  constructor({
+    baseUrl,
+    options,
+    timeout,
+    isDevModeEnabled,
+    middleware,
+    beforeResponse,
+  }: CreateFetchClientType) {
+    this.setDefualt(
+      baseUrl,
+      options,
+      timeout,
+      isDevModeEnabled,
+      middleware,
+      beforeResponse,
+    );
+  }
 
-  const parseResponse = async <T>(response: Response, responseType: ResponseType = "json"): Promise<T> => {
-    switch (responseType) {
-      case "json":
-        return await response.json();
-      case "text":
-        return (await response.text()) as T;
-      case "blob":
-        return (await response.blob()) as T;
-      case "arrayBuffer":
-        return (await response.arrayBuffer()) as T;
-      case "response":
-        return response as T;
-      default:
-        return await response.json();
-    }
-  };
-
-  const request = async <T>(method: string, path: string, options: RequestOptions = {}): Promise<T> => {
-    const { params, headers: customHeaders, responseType = "json", ...fetchOptions } = options;
-
-    const url = normalizeUrl(path, params);
-
-    const response = await fetch(url, {
-      method,
-      headers: {
-        ...defaultHeaders,
-        ...customHeaders,
+  create() {
+    return {
+      get: <T, ErrorT = unknown>({
+        endpoint,
+        config,
+        onError,
+      }: CreateRequestType<ErrorT>) => {
+        return this.createRequest<T, ErrorT>("GET", endpoint, config, onError);
       },
-      ...fetchOptions,
-    });
+      post: <T, ErrorT = unknown>({
+        endpoint,
+        config,
+        onError,
+      }: CreateRequestType<ErrorT>) => {
+        return this.createRequest<T, ErrorT>("POST", endpoint, config, onError);
+      },
+      put: <T, ErrorT = unknown>({
+        endpoint,
+        config,
+        onError,
+      }: CreateRequestType<ErrorT>) => {
+        return this.createRequest<T, ErrorT>("PUT", endpoint, config, onError);
+      },
 
-    if (!response.ok) {
-      throw new FetchError(`Request failed: ${response.status} ${response.statusText}`, response.status, response.statusText, response);
+      patch: <T, ErrorT = unknown>({
+        endpoint,
+        config,
+        onError,
+      }: CreateRequestType<ErrorT>) => {
+        return this.createRequest<T, ErrorT>(
+          "PATCH",
+          endpoint,
+          config,
+          onError,
+        );
+      },
+      delete: <T, ErrorT = unknown>({
+        endpoint,
+        config,
+        onError,
+      }: CreateRequestType<ErrorT>) => {
+        return this.createRequest<T, ErrorT>(
+          "DELETE",
+          endpoint,
+          config,
+          onError,
+        );
+      },
+    };
+  }
+
+  private async createRequest<T, ErrorT>(
+    method: Method,
+    endpoint: string,
+    config: OptionsType & ExtraOptionsType = {},
+    onError?: onErrorType<ErrorT>,
+  ) {
+    const { options, isDevModeEnabled, timeout } = config;
+
+    const devModeStatus
+      = isDevModeEnabled ?? this.extraOptions.isDevModeEnabled;
+
+    let requestConfig = { ...this.config };
+    this.middlewares.forEach(
+      middleware => (requestConfig = middleware(requestConfig)),
+    );
+
+    const controller = new AbortController();
+    const timer = setTimeout(
+      () => controller.abort(),
+      timeout ?? this.extraOptions.timeout,
+    );
+
+    this.log(this.baseUrl, devModeStatus);
+    this.log(requestConfig, devModeStatus);
+    this.log(
+      `timeout : ${timeout ?? this.extraOptions.timeout}`,
+      devModeStatus,
+    );
+
+    try {
+      let response = await fetch(this.resolveUrl(this.baseUrl, endpoint), {
+        method,
+        ...requestConfig,
+        ...options,
+        headers: {
+          ...requestConfig.headers,
+          ...options?.headers,
+        },
+        signal: controller.signal,
+      });
+
+      this.beforeResponses.forEach(
+        beforeResponse => (response = beforeResponse(response)),
+      );
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        if (onError) {
+          onError(response);
+        }
+
+        throw new ApiError(
+          `Request failed with status code ${response.status}`,
+          response.status,
+          response.statusText,
+          errorData,
+        );
+      }
+
+      return response as ApiSuccess<T>;
+    }
+    catch (error) {
+      if ((error as Error).name === "AbortError") {
+        throw new ApiError("Request timeout", 408, "Request Timeout", null);
+      }
+      throw error;
+    }
+    finally {
+      clearTimeout(timer);
+    }
+  }
+
+  private log(message: unknown, devMode?: boolean) {
+    const isEnabled = devMode ?? this.extraOptions.isDevModeEnabled;
+
+    if (!isEnabled) {
+      return;
     }
 
-    return parseResponse<T>(response, responseType);
-  };
+    log(message);
+  }
 
-  const requestWithBody = <T>(method: string, path: string, body?: unknown, options: RequestOptions = {}): Promise<T> => {
-    const isFormData = body instanceof FormData;
-    const headers: HeadersInit = {
-      ...(!isFormData && { "Content-Type": "application/json" }),
-      ...options.headers,
+  private resolveUrl(baseUrl: string, endpoint: string) {
+    const url = endpoint.startsWith("http")
+      ? endpoint
+      : `${trim(baseUrl, "/")}/${trim(endpoint, "/")}`;
+    return new URL(url);
+  }
+
+  private setDefualt(
+    baseUrl: string,
+    options?: RequestInit,
+    timeout?: number,
+    isDevModeEnabled?: boolean,
+    middleware?: BeforeRequestType[],
+    beforeResponse?: BeforeResponseType[],
+  ) {
+    this.baseUrl = baseUrl;
+    this.config = { ...options };
+    this.extraOptions = {
+      timeout: timeout ?? DEFAULT_TIMEOUT,
+      isDevModeEnabled: isDevModeEnabled ?? DEFAULT_DEV_MODE_ENALBED,
     };
-
-    return request<T>(method, path, {
-      ...options,
-      body: isFormData ? body : body ? JSON.stringify(body) : undefined,
-      headers,
-    });
-  };
-
-  return {
-    get: <T>(path: string, options?: RequestOptions) => request<T>("GET", path, options),
-
-    post: <T>(path: string, body?: unknown, options?: RequestOptions) => requestWithBody<T>("POST", path, body, options),
-
-    put: <T>(path: string, body?: unknown, options?: RequestOptions) => requestWithBody<T>("PUT", path, body, options),
-
-    patch: <T>(path: string, body?: unknown, options?: RequestOptions) => requestWithBody<T>("PATCH", path, body, options),
-
-    delete: <T>(path: string, options?: RequestOptions) => request<T>("DELETE", path, options),
-  };
+    this.middlewares = middleware ?? [];
+    this.beforeResponses = beforeResponse ?? [];
+  }
 }
 
-export { createFetchClient, FetchError };
-export type { FetchClientConfig, QueryParams, RequestOptions, ResponseType };
+export { CreateFetchClient };

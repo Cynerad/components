@@ -1,14 +1,14 @@
 "use client";
 
-import { format, getTime, isValid } from "date-fns";
-import { CalendarIcon, XCircle } from "lucide-react";
-
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Separator } from "@/components/ui/separator";
+import { useSearchParams } from "@/lib/search-params";
 import { cn } from "@/lib/utils";
-import { Column } from "@tanstack/react-table";
+import type { Column } from "@tanstack/react-table";
+import { format, getTime, isValid } from "date-fns";
+import { CalendarIcon, XCircle } from "lucide-react";
 import z from "zod";
 
 type DateFilterProps<TData, TValue> = {
@@ -20,7 +20,7 @@ type DateFilterProps<TData, TValue> = {
 const isValidString = z.string().default("");
 
 export function DataTableDate<TData, TValue>({ column, title, className }: DateFilterProps<TData, TValue>) {
-  const [{ columnFilters }, setFilters] = useProducts();
+  const [{ columnFilters }, setFilters] = useSearchParams();
 
   const currentColumn = columnFilters.find((c) => c.id === column?.id);
   const value = isValidString.parse(currentColumn?.value);

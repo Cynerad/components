@@ -8,15 +8,15 @@ export function Preview({
   className,
   align = "center",
   chromeLessOnMobile = false,
-  component,
+  children,
   ...props
 }: React.ComponentProps<"div"> & {
   align?: "center" | "start" | "end";
   chromeLessOnMobile?: boolean;
-  component: React.ReactNode;
+  children: React.ReactNode;
 }) {
   return (
-    <div className={cn("group relative mt-4 mb-12 flex flex-col gap-2 rounded-lg border", className)} {...props}>
+    <div className={cn("group relative mt-4 mb-12 flex flex-col gap-2 rounded-lg border min-w-full", className)} {...props}>
       <div data-slot="preview">
         <div
           data-align={align}
@@ -25,7 +25,7 @@ export function Preview({
             chromeLessOnMobile ? "sm:p-10" : " p-10",
           )}
         >
-          {component}
+          {children}
         </div>
       </div>
     </div>

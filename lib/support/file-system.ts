@@ -11,7 +11,8 @@ const fileSystem = {
     try {
       await fs.stat(basePath(path));
       return true;
-    } catch {
+    }
+    catch {
       return false;
     }
   },
@@ -21,7 +22,10 @@ const fileSystem = {
   async folderExists(path: string) {
     return (await fs.stat(basePath(path))).isDirectory();
   },
-  async createDirectory(path: string, options: Parameters<typeof fs.mkdir>[1] = { recursive: true }) {
+  async createDirectory(
+    path: string,
+    options: Parameters<typeof fs.mkdir>[1] = { recursive: true },
+  ) {
     await fs.mkdir(basePath(path), options);
   },
   async createDirectoryIfNotExists(path: string) {
@@ -35,12 +39,20 @@ const fileSystem = {
 
     await fs.writeFile(basePath(path), "", options);
   },
-  async write(pathToWrite: string, data: string | NodeJS.ArrayBufferView, options: Parameters<typeof fs.writeFile>[2] = "utf-8") {
+  async write(
+    pathToWrite: string,
+    data: string | NodeJS.ArrayBufferView,
+    options: Parameters<typeof fs.writeFile>[2] = "utf-8",
+  ) {
     await this.createDirectoryIfNotExists(pathToWrite);
 
     await fs.writeFile(basePath(pathToWrite), data, options);
   },
-  async append(path: string, data: string | Uint8Array, options?: Parameters<typeof fs.appendFile>[2]) {
+  async append(
+    path: string,
+    data: string | Uint8Array,
+    options?: Parameters<typeof fs.appendFile>[2],
+  ) {
     await fs.appendFile(basePath(path), data, options);
   },
   async replaceContent(path: string, searchValue: string | RegExp, replaceValue: string) {
@@ -57,7 +69,11 @@ const fileSystem = {
   async rename(pathFrom: string, newPath: string) {
     await fs.rename(basePath(pathFrom), basePath(newPath));
   },
-  async copy(copyFrom: string, copyTo: string, options: Parameters<typeof fs.cp>[2] = { recursive: true }) {
+  async copy(
+    copyFrom: string,
+    copyTo: string,
+    options: Parameters<typeof fs.cp>[2] = { recursive: true },
+  ) {
     await fs.cp(basePath(copyFrom), basePath(copyTo), options);
   },
   async cut(cutFrom: string, cutTo: string) {

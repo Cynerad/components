@@ -6,7 +6,9 @@ function range(start: number = 0, end?: number, step: number = 1) {
     start = 0;
   }
 
-  if (step === 0) step = 1;
+  if (step === 0) {
+    step = 1;
+  }
 
   step = start > end && step > 0 ? step * -1 : step;
 
@@ -30,7 +32,7 @@ function sample<TArray>(array: TArray[]) {
 
 function sum(array: number[]) {
   let total = 0;
-  array.forEach((e) => (total += e));
+  array.forEach(e => (total += e));
   return total;
 }
 
@@ -38,10 +40,12 @@ function chunk<TArray>(array: TArray[], size: number) {
   let chunkedNumber = 0;
   const chunkedArray: unknown[] = [];
   array.forEach(() => {
-    if (chunkedNumber === array.length) return;
+    if (chunkedNumber === array.length)
+      return;
 
     const slicedArray = array.slice(chunkedNumber, chunkedNumber + size);
-    if (slicedArray.length === 0) return;
+    if (slicedArray.length === 0)
+      return;
     chunkedArray.push(slicedArray);
     chunkedNumber += size;
   });
@@ -50,16 +54,20 @@ function chunk<TArray>(array: TArray[], size: number) {
 }
 
 function compact<TArray>(array: TArray[]) {
-  return array.filter((e) => e);
+  return array.filter(e => e);
 }
 
-function difference<TFirstArray, TSecondArray>(firstArray: TFirstArray[], secondArray: TSecondArray[]) {
-  return firstArray.filter((f) => !secondArray.includes(f));
+function difference<T>(
+  firstArray: T[],
+  secondArray: T[],
+) {
+  return firstArray.filter(f => !secondArray.includes(f));
 }
 
 function remove<TArray>(array: TArray[], value: TArray) {
   const index = array.indexOf(value);
-  if (index === -1) return array;
+  if (index === -1)
+    return array;
   array.splice(index, 1);
   return array;
 }
@@ -89,8 +97,11 @@ function nth<TArray>(array: TArray[], n: number) {
   return array[n];
 }
 
-function intersection<TFirstArray, TSecondArray>(firstArray: TFirstArray[], secondArray: TSecondArray[]) {
-  return firstArray.filter((e) => secondArray.includes(e));
+function intersection<T>(
+  firstArray: T[],
+  secondArray: T[],
+): T[] {
+  return firstArray.filter(e => secondArray.includes(e));
 }
 
 function tail<TArray>(array: TArray[]) {
@@ -102,7 +113,10 @@ function take<TArray>(array: TArray[], n: number = 0) {
   return array.slice(0, n);
 }
 
-function union<TFirstArray, TSecondArray>(firstArray: TFirstArray[], secondArray: TSecondArray[]) {
+function union<TFirstArray, TSecondArray>(
+  firstArray: TFirstArray[],
+  secondArray: TSecondArray[],
+) {
   return [...new Set([...firstArray, ...secondArray])];
 }
 

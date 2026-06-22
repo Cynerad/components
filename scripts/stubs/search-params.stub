@@ -1,0 +1,19 @@
+import { parseAsString } from "nuqs/server";
+import { createParams } from "@/registry/search-params";
+import { createTypedLink } from "@/lib/utils";
+
+// {{blank}} Params
+const {{blank}}Params = {
+  example: parseAsString.withDefault(""),
+} as const;
+
+export const {
+  searchParams: {{blank}}SearchParams,
+  urlKeys: {{blank}}UrlKeys,
+  loadSearchParams: load{{blank-cap}}SearchParams, // use on server
+  useSearchParams: use{{blank-cap}}Params, // use on client
+} = createParams({{blank}}Params, {
+    example: "exampleUrlKey",
+});
+
+export const get{{blank-cap}}Links = createTypedLink("/{{blank}}", {{blank}}SearchParams, { urlKeys: {{blank}}UrlKeys });

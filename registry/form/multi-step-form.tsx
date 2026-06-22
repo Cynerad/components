@@ -13,16 +13,17 @@ import React, {
   useState,
 } from "react";
 
+import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 import { Lock } from "lucide-react";
 import { iconNames } from "lucide-react/dynamic";
-import { Button } from "../button";
-import { cn } from "@/lib/utils";
 
+import { Badge } from "@/components/ui/badge";
+import { Spinner } from "@/components/ui/spinner";
 import { CheckCircle, CircleDot } from "lucide-react";
 import { DynamicIcon } from "lucide-react/dynamic";
-import { Badge } from "../badge";
-import { Spinner } from "../spinner";
 import { FieldValues, Path, UseFormReturn } from "react-hook-form";
+
 type StepStatus = "active" | "completed" | "inactive";
 
 type StepType = {
@@ -43,7 +44,7 @@ type StepContextType = {
   currentStep: number;
   setCurrentStep: Dispatch<SetStateAction<number>>;
   goToStep: (id: number) => void;
-  form: UseFormReturn | null;
+  form: UseFormReturn<FieldValues> | null;
   setFormData: (form: UseFormReturn) => void;
 };
 
@@ -61,10 +62,10 @@ const StatusDescribe = {
 
 const StepContext = createContext<null | StepContextType>(null);
 
-function StepProvider<T extends FieldValues>({ children }: { children: ReactNode }) {
+function StepProvider({ children }: { children: ReactNode }) {
   const [steps, setSteps] = useState<StepType[]>([]);
   const [currentStep, setCurrentStep] = useState<number>(1);
-  const [form, setForm] = useState<UseFormReturn<T> | null>(null);
+  const [form, setForm] = useState<UseFormReturn<FieldValues> | null>(null);
 
   function isLastStep(): boolean {
     return steps.length === currentStep;
@@ -79,7 +80,7 @@ function StepProvider<T extends FieldValues>({ children }: { children: ReactNode
   }
 
   function setFormData<T extends FieldValues>(form: UseFormReturn<T>): void {
-    setForm(form);
+    setForm(form as UseFormReturn<FieldValues>);
   }
 
   async function next() {
@@ -185,7 +186,8 @@ export function StepsWrapper<T extends FieldValues>({ form, children }: { form: 
   const { setSteps, setFormData } = useContext(StepContext) as StepContextType;
 
   useEffect(() => {
-    setFormData(form);
+    setFormData(form as UseFormReturn<FieldValues>);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
@@ -206,6 +208,7 @@ export function StepsWrapper<T extends FieldValues>({ form, children }: { form: 
     });
 
     setSteps(stepConfigs);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
@@ -224,7 +227,7 @@ type StepComponentProps<T extends FieldValues> = {
   className?: string;
 };
 
-export function Step<T extends FieldValues>({ title, icon, fields = [], children, className = "" }: StepComponentProps<T>) {
+export function Step<T extends FieldValues>({ title, children, className = "" }: StepComponentProps<T>) {
   const { currentStep, steps } = useContext(StepContext) as StepContextType;
 
   const stepIndex = useMemo(() => {
@@ -277,7 +280,7 @@ function ProgressSeparator({ step }: { step: StepType }) {
   return (
     <div
       data-status={step.status}
-      className="flex-1 min-w-[150px] h-[3px] rounded-xl bg-foreground mx-1 data-[status=active]:bg-accent data-[status=completed]:bg-green-500 data-[status=inactive]:bg-accent"
+      className="flex-1 min-w-37.5 h-0.75 rounded-xl bg-foreground mx-1 data-[status=active]:bg-accent data-[status=completed]:bg-green-500 data-[status=inactive]:bg-accent"
     ></div>
   );
 }

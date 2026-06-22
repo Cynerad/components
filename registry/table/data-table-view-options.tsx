@@ -5,13 +5,13 @@ import { Check, ChevronsUpDown, Settings2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from "@/components/ui/command";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { cn } from "@/lib/utils";
 import { Table } from "@tanstack/react-table";
 import { useState } from "react";
-import { cn } from "@/lib/utils";
 
-interface DataTableViewOptionsProps<TData> {
+type DataTableViewOptionsProps<TData> = {
   table: Table<TData>;
-}
+};
 
 export function DataTableViewOptions<TData>({ table }: DataTableViewOptionsProps<TData>) {
   const [open, setOpen] = useState(false);
@@ -25,7 +25,7 @@ export function DataTableViewOptions<TData>({ table }: DataTableViewOptionsProps
           <ChevronsUpDown className="opacity-50" />
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="w-[168px] p-0">
+      <PopoverContent className="w-42 p-0">
         <Command>
           <CommandInput placeholder="Search framework..." className="h-9" />
           <CommandList>

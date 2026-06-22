@@ -1,16 +1,16 @@
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { Separator } from "@/components/ui/separator";
 import { Slider } from "@/components/ui/slider";
+import { useSearchParams } from "@/lib/search-params";
 import { cn } from "@/lib/utils";
 import { Column } from "@tanstack/react-table";
 import { Plus, XCircle } from "lucide-react";
-import { useProducts } from "./searchParams";
-import { z } from "zod";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { useCallback, useMemo } from "react";
 import { debounce } from "nuqs/server";
-import { Separator } from "@/components/ui/separator";
+import { useCallback, useMemo } from "react";
+import { z } from "zod";
 
 type SliderFilterProps<TData, TValue> = {
   column?: Column<TData, TValue>;
@@ -32,7 +32,7 @@ export function DataTableSlider<TData, TValue>({
   max = 24,
   unit = "hr",
 }: SliderFilterProps<TData, TValue>) {
-  const [{ columnFilters }, setFilters] = useProducts();
+  const [{ columnFilters }, setFilters] = useSearchParams();
 
   const currentColumn = useMemo(() => columnFilters.find((c) => c.id === column?.id), [columnFilters, column?.id]);
 
@@ -42,7 +42,7 @@ export function DataTableSlider<TData, TValue>({
   const [firstNumber, secondNumber] = useMemo(() => {
     const params = filterValues
       .filter((v) => v)
-      .map((val, index) => {
+      .map((val) => {
         const parsed = isNumber.safeParse(val);
 
         return parsed.success && !isNaN(parsed.data) ? parsed.data : undefined;
@@ -53,8 +53,6 @@ export function DataTableSlider<TData, TValue>({
 
     return [firstNumber, secondNumber];
   }, [filterValues, min, max]);
-
-  // console.log(firstNumber, min , secondNumber)
 
   const updateFilters = useCallback(
     (newValues: [number, number]) => {

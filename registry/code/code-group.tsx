@@ -1,17 +1,18 @@
 "use client";
 
+import { Button } from "@/components/ui/button";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
+import { copyToClipboard } from "@/lib/support/utils";
+import { cn } from "@/lib/utils";
+import { TabsContent } from "@radix-ui/react-tabs";
+import { transformerNotationDiff } from "@shikijs/transformers";
+import { Check, Copy, Ellipsis } from "lucide-react";
+import { DynamicIcon, iconNames } from "lucide-react/dynamic";
 import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";
-import { codeToHtml, bundledLanguages, bundledThemes, DecorationItem } from "shiki";
-import { Tabs, TabsList, TabsTrigger } from "../tabs";
-import { TabsContent } from "@radix-ui/react-tabs";
-import { DynamicIcon, iconNames } from "lucide-react/dynamic";
-import { Tooltip, TooltipContent, TooltipTrigger } from "../tooltip";
-import { Button } from "../button";
-import { Check, Copy, Ellipsis } from "lucide-react";
-import { cn, copyText } from "@/lib/utils";
+import { bundledLanguages, bundledThemes, codeToHtml, DecorationItem } from "shiki";
 import "./code.css";
-import { transformerNotationDiff } from "@shikijs/transformers";
 
 export type CodeType = {
   code: string;
@@ -55,7 +56,7 @@ export function CodeGroup({ codes, expendable = false }: { codes: CodeType[]; ex
     });
     if (!code) return;
 
-    copyText(code.code);
+    copyToClipboard(code.code);
     setHasCopied(true);
   }
 
@@ -137,7 +138,7 @@ export function CodeGroup({ codes, expendable = false }: { codes: CodeType[]; ex
 
   return (
     <div>
-      <div className="overflow-x-auto relative bg-accent rounded-t-sm">
+      <div className="overflow-x-auto relative bg-accent rounded-sm min-w-62.5">
         <Tabs
           className="gap-0"
           defaultValue={"0"}
@@ -160,7 +161,7 @@ export function CodeGroup({ codes, expendable = false }: { codes: CodeType[]; ex
               ))}
             </TabsList>
           </div>
-          <div className={cn(" ", isExpended ? "max-h-[400px]" : "max-h-full")}>
+          <div className={cn(" ", isExpended ? "max-h-100" : "max-h-full")}>
             {HighlightedCodes.length > 0 ? (
               HighlightedCodes.map((h) => (
                 <TabsContent key={h.id} value={h.id.toString()}>

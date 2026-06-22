@@ -1,0 +1,23 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "tags-input",
+  "title": "tags input",
+  "description": "A tags input build with shadcn ui.",
+  "dependencies": [
+    "lucide-react"
+  ],
+  "registryDependencies": [
+    "badge",
+    "button",
+    "input"
+  ],
+  "files": [
+    {
+      "path": "registry/ui/tags-input.tsx",
+      "content": "\"use client\";\n\nimport { Badge } from \"@/components/ui/badge\";\nimport { Button } from \"@/components/ui/button\";\nimport { Input } from \"@/components/ui/input\";\nimport { cn } from \"@/lib/utils\";\nimport { Plus, X } from \"lucide-react\";\nimport { ComponentProps, KeyboardEvent, useRef, useState } from \"react\";\n\ntype TagsInputType = {\n  name: string;\n  filterFunction?: (tags: string[]) => string;\n} & ComponentProps<\"input\">;\n\nexport default function TagsInput({ name, filterFunction, ...props }: TagsInputType) {\n  const [value, setValue] = useState<string>(\"\");\n  const [tags, setTags] = useState<string[]>([]);\n  const inputRef = useRef<HTMLInputElement | null>(null);\n  const filterdValue = () => {\n    if (filterFunction) {\n      return filterFunction(tags);\n    }\n\n    return tags.join(\",\");\n  };\n\n  const handleKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {\n    if (event.key === \"Enter\") {\n      add();\n    }\n\n    if (event.key === \"Backspace\" && value === \"\") {\n      removeLast();\n    }\n  };\n\n  function add() {\n    if (value === \"\") return;\n\n    if (tags.includes(value)) {\n      setValue(\"\");\n      return;\n    }\n\n    tags.push(value);\n\n    setValue(\"\");\n\n    inputRef.current?.focus();\n  }\n\n  function remove(tag: string) {\n    setTags((prevTags) => prevTags.filter((prevTag) => prevTag !== tag));\n  }\n\n  function removeLast() {\n    setTags((prevTags) => prevTags.slice(0, prevTags.length - 1));\n  }\n\n  function clearAll() {\n    setTags([]);\n  }\n\n  return (\n    <div>\n      <div className={cn(\"p-2 flex flex-col md:flex-row items-center gap-2 rounded-xs\", props.className)}>\n        <Input type=\"text\" value={value} ref={inputRef} onChange={(e) => setValue(e.target.value)} onKeyDown={handleKeyDown} {...props} />\n        <input name={name} type=\"hidden\" value={filterdValue()} readOnly />\n\n        <Button variant=\"outline\" size=\"xs\" onClick={add} className=\"w-full py-4 md:w-fit md:py-2\">\n          <Plus />\n        </Button>\n\n        {tags.length > 0 && (\n          <Button variant=\"outline\" size=\"xs\" onClick={clearAll} className=\"w-full py-4 md:w-fit md:py-2\">\n            Clear\n          </Button>\n        )}\n      </div>\n      <div className=\"flex items-center flex-wrap gap-2\">\n        {tags.map((tag) => (\n          <Badge variant=\"outline\" key={tag}>\n            <span>{tag}</span>\n            <Button variant=\"ghost\" size=\"icon-xs\" onClick={() => remove(tag)}>\n              <X />\n            </Button>\n          </Badge>\n        ))}\n      </div>\n    </div>\n  );\n}\n",
+      "type": "registry:component",
+      "target": "@components/ui/tags-input.tsx"
+    }
+  ],
+  "type": "registry:component"
+}

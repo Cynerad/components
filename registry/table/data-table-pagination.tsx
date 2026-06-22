@@ -1,10 +1,11 @@
-import { Table } from "@tanstack/react-table";
 import { Button } from "@/components/ui/button";
+import { Table } from "@tanstack/react-table";
 
+import { useSearchParams } from "@/lib/search-params";
 import { ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight } from "lucide-react";
 
 export default function DataTablePagination<T>({ table }: { table: Table<T> }) {
-  const [{ limit, skip }, setFilters] = useProducts();
+  const [{ limit, skip }, setFilters] = useSearchParams();
   return (
     <div className="flex items-center justify-end space-x-2 py-4">
       <Button

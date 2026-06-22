@@ -1,0 +1,21 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "dd",
+  "title": "tags input",
+  "description": "A dd build with shadcn ui.",
+  "dependencies": [
+    "lucide-react"
+  ],
+  "registryDependencies": [
+    "sonner"
+  ],
+  "files": [
+    {
+      "path": "registry/ui/dd.tsx",
+      "content": "import { toast } from \"sonner\";\r\n\r\nfunction safeStringify(obj: unknown, indent = 2) {\r\n  const cache = new Set();\r\n  return JSON.stringify(\r\n    obj,\r\n    (key, value) => {\r\n      if (typeof value === \"object\" && value !== null) {\r\n        // Skip DOM elements and React fibers\r\n        if (value instanceof HTMLElement || value instanceof Node) {\r\n          return \"[DOM Element]\";\r\n        }\r\n        // Handle circular references\r\n        if (cache.has(value)) {\r\n          return \"[Circular]\";\r\n        }\r\n        cache.add(value);\r\n      }\r\n      return value;\r\n    },\r\n    indent,\r\n  );\r\n}\r\n\r\nexport function dd(data: unknown) {\r\n  toast(\"Debug\", {\r\n    description: () => {\r\n      return (\r\n        <pre className=\"bg-code text-code-foreground mt-2 w-[320px] max-h-200 overflow-auto rounded-md p-4\">\r\n          <code>{safeStringify(data)}</code>\r\n        </pre>\r\n      );\r\n    },\r\n    position: \"top-right\",\r\n    classNames: {\r\n      content: \"flex flex-col gap-2\",\r\n    },\r\n    style: {\r\n      \"--border-radius\": \"calc(var(--radius)  + 4px)\",\r\n    } as React.CSSProperties,\r\n  });\r\n}\r\n",
+      "type": "registry:component",
+      "target": "@components/ui/dd.tsx"
+    }
+  ],
+  "type": "registry:component"
+}

@@ -1,4 +1,5 @@
-import generate from "./generate";
+import { generateWithStub } from "@/lib/support/generator";
+import { studly } from "@/lib/support/string";
 
 const args = process.argv.slice(2);
 
@@ -8,8 +9,11 @@ const arrayPath = componentPath.split("/");
 
 const componentName = arrayPath[arrayPath.length - 1];
 
-const pascalComponentName = componentName.replace(/(^\w|-\w)/g, (match) => match.replace("-", "").toUpperCase());
-
-generate(componentPath, "scripts/stubs/component.stub", {
-  "{{ComponentName}}": pascalComponentName,
+generateWithStub({
+  filePath: componentPath,
+  mime: "tsx",
+  stubPath: "scripts/stubs/component.stub",
+  replaceParameters: {
+    "{{ComponentName}}": studly(componentName),
+  },
 });

@@ -1,0 +1,15 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "preview",
+  "title": "preview",
+  "description": "A preview build with shadcn ui.",
+  "files": [
+    {
+      "path": "registry/ui/preview.tsx",
+      "content": "\"use client\";\n\nimport * as React from \"react\";\n\nimport { cn } from \"@/lib/utils\";\n\nexport function Preview({\n  className,\n  align = \"center\",\n  chromeLessOnMobile = false,\n  children,\n  ...props\n}: React.ComponentProps<\"div\"> & {\n  align?: \"center\" | \"start\" | \"end\";\n  chromeLessOnMobile?: boolean;\n  children: React.ReactNode;\n}) {\n  return (\n    <div className={cn(\"group relative mt-4 mb-12 flex flex-col gap-2 rounded-lg border min-w-full\", className)} {...props}>\n      <div data-slot=\"preview\">\n        <div\n          data-align={align}\n          className={cn(\n            \"preview flex w-full justify-center data-[align=center]:items-center data-[align=end]:items-end data-[align=start]:items-start\",\n            chromeLessOnMobile ? \"sm:p-10\" : \" p-10\",\n          )}\n        >\n          {children}\n        </div>\n      </div>\n    </div>\n  );\n}\n",
+      "type": "registry:component",
+      "target": "@components/ui/preview.tsx"
+    }
+  ],
+  "type": "registry:component"
+}

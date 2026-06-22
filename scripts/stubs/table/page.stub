@@ -1,0 +1,26 @@
+import { dehydrate, HydrationBoundary, QueryClient } from "@tanstack/react-query";
+import { SearchParams } from "nuqs/server";
+import { loadSearchParams } from "@/lib/search-params";
+
+import { columns } from "@/app/{{blank}}/column";
+import { DataTable } from "@/app/{{blank}}/data-table";
+
+type PageProps = {
+  searchParams: Promise<SearchParams>;
+};
+
+export default async function {{blank-cap}}Page({ searchParams }: PageProps) {
+  const params = await loadSearchParams(searchParams);
+
+  const queryClient = new QueryClient();
+  await queryClient.prefetchQuery({
+    queryKey: ["your key", params], //correct key
+    queryFn: () => console.log("hello"), // type your action here line : get{{blank-cap}}(params)
+  });
+
+  return (
+    <HydrationBoundary state={dehydrate(queryClient)}>
+      <DataTable columns={columns} />
+    </HydrationBoundary>
+  );
+}

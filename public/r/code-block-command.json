@@ -20,5 +20,5 @@
       "target": "components/ui/code/code-block-command.tsx"
     }
   ],
-  "type": "registry:hook"
+  "type": "registry:component"
 }

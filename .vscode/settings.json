@@ -1,1 +1,4 @@
-{}
+{
+  "vscode-neovim.logOutputToConsole": false,
+  "output.smartScroll.enabled": true
+}

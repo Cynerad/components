@@ -5,17 +5,226 @@
   "description": "A collection of reusable UI components built with React and Tailwind CSS and shadcn.",
   "items": [
     {
-      "name": "code-block-command",
-      "type": "registry:hook",
-      "title": "Code Block Command",
-      "description": "A command to display code blocks with copy functionality.",
-      "registryDependencies": ["button", "tabs", "tooltip", "https://cynerad.github.io/support/public/r/support.json"],
-      "dependencies": ["lucide-react"],
+      "name": "code-block",
+      "type": "registry:component",
+      "title": "Code Block",
+      "description": "A code block to display code blocks with copy functionality.",
+      "registryDependencies": ["button", "badge", "tabs", "tooltip", "https://cynerad.github.io/support/public/r/support.json"],
+      "dependencies": ["lucide-react", "shiki", "next-themes"],
+      "devDependencies": ["@shikijs/transformers"],
       "files": [
+        {
+          "path": "registry/code/code.css",
+          "type": "registry:component",
+          "target": "@components/code/code.css"
+        },
+        {
+          "path": "registry/code/code-block.tsx",
+          "type": "registry:component",
+          "target": "@components/code/code-block.tsx"
+        },
         {
           "path": "registry/code/code-block-command.tsx",
           "type": "registry:component",
-          "target": "components/ui/code/code-block-command.tsx"
+          "target": "@components/code/code-block-command.tsx"
+        },
+        {
+          "path": "registry/code/code-group.tsx",
+          "type": "registry:component",
+          "target": "@components/code/code-group.tsx"
+        }
+      ]
+    },
+    {
+      "name": "multi-step-form",
+      "type": "registry:component",
+      "title": "form",
+      "description": "A multy step form with react hook form.",
+      "registryDependencies": ["button", "badge", "spinner", "react-hook-from"],
+      "dependencies": ["lucide-react"],
+      "files": [
+        {
+          "path": "registry/form/multi-step-form.tsx",
+          "type": "registry:component",
+          "target": "@components/form/multi-step-form.tsx"
+        }
+      ]
+    },
+    {
+      "name": "table",
+      "type": "registry:component",
+      "title": "reusable table components build with shadcn ui.",
+      "description": "A multy step form with react hook form.",
+      "registryDependencies": [
+        "button",
+        "calendar",
+        "popover",
+        "separator",
+        "dropdown-menu",
+        "command",
+        "select",
+        "input",
+        "label",
+        "slider"
+      ],
+      "dependencies": ["lucide-react", "@tanstack/react-table", "date-fns", "zod", "nuqs"],
+      "files": [
+        {
+          "path": "lib/search-params.ts",
+          "type": "registry:lib",
+          "target": "@lib/search-params.ts"
+        },
+        {
+          "path": "registry/table/data-table-column-header.tsx",
+          "type": "registry:component",
+          "target": "@components/table/data-table-column-header.tsx"
+        },
+        {
+          "path": "registry/table/data-table-date.tsx",
+          "type": "registry:component",
+          "target": "@components/table/data-table-date.tsx"
+        },
+        {
+          "path": "registry/table/data-table-faceted-filter.tsx",
+          "type": "registry:component",
+          "target": "@components/table/data-table-faceted-filter.tsx"
+        },
+        {
+          "path": "registry/table/data-table-footer-details.tsx",
+          "type": "registry:component",
+          "target": "@components/table/data-table-footer-details.tsx"
+        },
+        {
+          "path": "registry/table/data-table-page-count.tsx",
+          "type": "registry:component",
+          "target": "@components/table/data-table-page-count.tsx"
+        },
+        {
+          "path": "registry/table/data-table-pagination.tsx",
+          "type": "registry:component",
+          "target": "@components/table/data-table-pagination.tsx"
+        },
+        {
+          "path": "registry/table/data-table-slider.tsx",
+          "type": "registry:component",
+          "target": "@components/table/data-table-slider.tsx"
+        },
+        {
+          "path": "registry/table/data-table-view-options.tsx",
+          "type": "registry:component",
+          "target": "@components/table/data-table-view-options.tsx"
+        }
+      ]
+    },
+    {
+      "name": "typography",
+      "type": "registry:component",
+      "title": "typography",
+      "description": "A set of typegraphy components.",
+      "dependencies": ["lucide-react"],
+      "files": [
+        {
+          "path": "registry/typography/blockquote.tsx",
+          "type": "registry:component",
+          "target": "@components/typography/blockquote.tsx"
+        },
+        {
+          "path": "registry/typography/h1.tsx",
+          "type": "registry:component",
+          "target": "@components/typography/h1.tsx"
+        },
+        {
+          "path": "registry/typography/h2.tsx",
+          "type": "registry:component",
+          "target": "@components/typography/h2.tsx"
+        },
+        {
+          "path": "registry/typography/h3.tsx",
+          "type": "registry:component",
+          "target": "@components/typography/h3.tsx"
+        },
+        {
+          "path": "registry/typography/h4.tsx",
+          "type": "registry:component",
+          "target": "@components/typography/h4.tsx"
+        },
+        {
+          "path": "registry/typography/inline-code.tsx",
+          "type": "registry:component",
+          "target": "@components/typography/inline-code.tsx"
+        },
+        {
+          "path": "registry/typography/large.tsx",
+          "type": "registry:component",
+          "target": "@components/typography/large.tsx"
+        },
+        {
+          "path": "registry/typography/lead.tsx",
+          "type": "registry:component",
+          "target": "@components/typography/lead.tsx"
+        },
+        {
+          "path": "registry/typography/list.tsx",
+          "type": "registry:component",
+          "target": "@components/typography/list.tsx"
+        },
+        {
+          "path": "registry/typography/muted.tsx",
+          "type": "registry:component",
+          "target": "@components/typography/muted.tsx"
+        },
+        {
+          "path": "registry/typography/p.tsx",
+          "type": "registry:component",
+          "target": "@components/typography/p.tsx"
+        },
+        {
+          "path": "registry/typography/small.tsx",
+          "type": "registry:component",
+          "target": "@components/typography/small.tsx"
+        }
+      ]
+    },
+    {
+      "name": "tags-input",
+      "type": "registry:component",
+      "title": "tags input",
+      "description": "A tags input build with shadcn ui.",
+      "registryDependencies": ["badge", "button", "input"],
+      "dependencies": ["lucide-react"],
+      "files": [
+        {
+          "path": "registry/ui/tags-input.tsx",
+          "type": "registry:component",
+          "target": "@components/ui/tags-input.tsx"
+        }
+      ]
+    },
+    {
+      "name": "dd",
+      "type": "registry:component",
+      "title": "tags input",
+      "description": "A dd build with shadcn ui.",
+      "registryDependencies": ["sonner"],
+      "dependencies": ["lucide-react"],
+      "files": [
+        {
+          "path": "registry/ui/dd.tsx",
+          "type": "registry:component",
+          "target": "@components/ui/dd.tsx"
+        }
+      ]
+    },
+    {
+      "name": "preview",
+      "type": "registry:component",
+      "title": "preview",
+      "description": "A preview build with shadcn ui.",
+      "files": [
+        {
+          "path": "registry/ui/preview.tsx",
+          "type": "registry:component",
+          "target": "@components/ui/preview.tsx"
         }
       ]
     }
