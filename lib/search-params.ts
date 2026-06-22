@@ -1,4 +1,4 @@
-import { createTypedLink } from "@/lib/utils";
+import { createTypedLink } from "@/lib/params-utils";
 import { ColumnFiltersState, type SortingState } from "@tanstack/react-table";
 import { ParserMap, useQueryStates } from "nuqs";
 import { createLoader, inferParserType, parseAsInteger, parseAsJson, parseAsString, SearchParams, UrlKeys } from "nuqs/server";

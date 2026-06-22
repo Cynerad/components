@@ -75,6 +75,11 @@
           "target": "@lib/search-params.ts"
         },
         {
+          "path": "lib/params-utils.ts",
+          "type": "registry:lib",
+          "target": "@lib/params-utils.ts"
+        },
+        {
           "path": "registry/table/data-table-column-header.tsx",
           "type": "registry:component",
           "target": "@components/table/data-table-column-header.tsx"
