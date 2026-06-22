@@ -238,6 +238,7 @@
       "type": "registry:component",
       "title": "scirpts",
       "description": "A set of scripts.",
+      "registryDependencies": ["https://cynerad.github.io/support/public/r/support.json"],
       "files": [
         { "path": "scripts/make-action.ts", "type": "registry:lib", "target": "scripts/make-action.ts" },
         { "path": "scripts/make-component.ts", "type": "registry:lib", "target": "scripts/make-component.ts" },
