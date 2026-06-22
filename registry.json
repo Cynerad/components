@@ -232,6 +232,25 @@
           "target": "@components/ui/preview.tsx"
         }
       ]
+    },
+    {
+      "name": "scripts",
+      "type": "registry:component",
+      "title": "scirpts",
+      "description": "A set of scripts.",
+      "files": [
+        { "path": "scripts/make-action.ts", "type": "registry:lib", "target": "scripts/make-action.ts" },
+        { "path": "scripts/make-component.ts", "type": "registry:lib", "target": "scripts/make-component.ts" },
+        { "path": "scripts/make-search-parameters.ts", "type": "registry:lib", "target": "scripts/make-search-parameters.ts" },
+        { "path": "scripts/make-table.ts", "type": "registry:lib", "target": "scripts/make-table.ts" },
+
+        { "path": "scripts/stubs/action.stub", "type": "registry:lib", "target": "scripts/stubs/action.stub" },
+        { "path": "scripts/stubs/component.stub", "type": "registry:lib", "target": "scripts/stubs/component.stub" },
+        { "path": "scripts/stubs/search-params.stub", "type": "registry:lib", "target": "scripts/stubs/search-params.stub" },
+        { "path": "scripts/stubs/table/columns.stub", "type": "registry:lib", "target": "scripts/stubs/table/columns.stub" },
+        { "path": "scripts/stubs/table/data-table.stub", "type": "registry:lib", "target": "scripts/stubs/table/data-table.stub" },
+        { "path": "scripts/stubs/table/page.stub", "type": "registry:lib", "target": "scripts/stubs/table/page.stub" }
+      ]
     }
   ]
 }
