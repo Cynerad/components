@@ -1,7 +1,6 @@
 "use client";
 
 import { EyeClosed, EyeOffIcon } from "lucide-react";
-
 import { InputGroup, InputGroupAddon, InputGroupButton, InputGroupInput } from "@/components/ui/input-group";
 import { ComponentProps, useState } from "react";
 
