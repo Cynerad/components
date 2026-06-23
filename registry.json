@@ -280,6 +280,21 @@
           "target": "@components/ui/back-to-top.tsx"
         }
       ]
+    },
+
+    {
+      "name": "password-input",
+      "type": "registry:component",
+      "title": "password-input",
+      "description": "A password input component build with shadcn ui.",
+      "dependencies": ["lucide-react", "input-group"],
+      "files": [
+        {
+          "path": "registry/ui/password-input.tsx",
+          "type": "registry:component",
+          "target": "@components/ui/password-input.tsx"
+        }
+      ]
     }
   ]
 }
