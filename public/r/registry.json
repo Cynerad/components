@@ -266,6 +266,20 @@
           "target": "@components/ui/rating.tsx"
         }
       ]
+    },
+    {
+      "name": "back-to-top",
+      "type": "registry:component",
+      "title": "back-to-top",
+      "description": "A back to top component build with shadcn ui.",
+      "dependencies": ["lucide-react", "motion"],
+      "files": [
+        {
+          "path": "registry/ui/back-to-top.tsx",
+          "type": "registry:component",
+          "target": "@components/ui/back-to-top.tsx"
+        }
+      ]
     }
   ]
 }

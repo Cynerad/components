@@ -1,0 +1,19 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "back-to-top",
+  "title": "back-to-top",
+  "description": "A back to top component build with shadcn ui.",
+  "dependencies": [
+    "lucide-react",
+    "motion"
+  ],
+  "files": [
+    {
+      "path": "registry/ui/back-to-top.tsx",
+      "content": "\"use client\";\n\nimport { Button } from \"@/components/ui/button\";\nimport { cn } from \"@/lib/utils\";\nimport { ArrowUpIcon } from \"lucide-react\";\nimport { useMotionValueEvent, useScroll } from \"motion/react\";\nimport { useState } from \"react\";\n\nexport function BackToTop({ className, ...props }: React.ComponentProps<\"button\">) {\n  const { scrollY } = useScroll();\n\n  const [visible, setVisible] = useState(false);\n  const [scrollDirection, setScrollDirection] = useState<\"up\" | \"down\">(\"down\");\n\n  useMotionValueEvent(scrollY, \"change\", (latestValue) => {\n    setVisible(latestValue >= 400);\n\n    const prev = scrollY.getPrevious() ?? 0;\n    const diff = latestValue - prev;\n    setScrollDirection(diff > 0 ? \"down\" : \"up\");\n  });\n\n  return (\n    <Button\n      data-visible={visible}\n      data-scroll-direction={scrollDirection}\n      className={cn(\n        \"[--bottom:1rem] lg:[--bottom:2rem]\",\n        \"fixed right-4 bottom-[calc(var(--bottom,1rem)+env(safe-area-inset-bottom,0px))] z-50 lg:right-8\",\n        \"transition-[background-color,opacity] duration-300 data-[scroll-direction=down]:opacity-30 data-[scroll-direction=up]:opacity-100 data-[visible=false]:opacity-0\",\n        className,\n      )}\n      variant=\"secondary\"\n      size=\"icon-lg\"\n      onClick={() => window.scrollTo({ top: 0 })}\n      {...props}\n    >\n      <ArrowUpIcon className=\"size-5\" />\n      <span className=\"sr-only\">Scroll to top</span>\n    </Button>\n  );\n}\n",
+      "type": "registry:component",
+      "target": "@components/ui/back-to-top.tsx"
+    }
+  ],
+  "type": "registry:component"
+}
