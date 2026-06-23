@@ -1,0 +1,18 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "rating",
+  "title": "rating",
+  "description": "A rating component build with shadcn ui.",
+  "dependencies": [
+    "lucide-react"
+  ],
+  "files": [
+    {
+      "path": "registry/ui/rating.tsx",
+      "content": "\"use client\";\n\nimport { cva, type VariantProps } from \"class-variance-authority\";\nimport { cn } from \"@/lib/utils\";\nimport { Star } from \"lucide-react\";\nimport { cloneElement, ComponentProps, ReactElement, useState } from \"react\";\n\nconst ratingVariants = cva(\"transition-colors\", {\n  variants: {\n    variant: {\n      default: \"text-foreground\",\n      yellow: \"text-amber-400 dark:text-amber-300\",\n      red: \"text-red-500\",\n      blue: \"text-blue-500\",\n    },\n  },\n  defaultVariants: { variant: \"default\" },\n});\n\ntype RatingType = {\n  name: string;\n  defaultValue?: number;\n  value?: number;\n  max?: number;\n  size?: number;\n  icon?: ReactElement<{ \"size\"?: number; \"className\"?: string; \"aria-hidden\"?: boolean }>;\n  variant?: VariantProps<typeof ratingVariants>[\"variant\"];\n  readOnly?: boolean;\n  disabled?: boolean;\n  onValueChange?: (value: number) => void;\n} & ComponentProps<\"div\">\n\nfunction Rating({\n  name,\n  defaultValue = 0,\n  value: controlledValue,\n  max = 5,\n  size = 20,\n  icon = <Star />,\n  variant = \"default\",\n  readOnly = false,\n  disabled = false,\n  className,\n  onValueChange,\n  ...props\n}: RatingType) {\n  const isControlled = controlledValue !== undefined;\n  const [internalValue, setInternalValue] = useState(defaultValue);\n  const [hovered, setHovered] = useState(0);\n\n  const value = isControlled ? controlledValue : internalValue;\n  const active = hovered || value;\n  const isInteractive = !readOnly && !disabled;\n\n  const handleChange = (next: number) => {\n    if (!isControlled) setInternalValue(next);\n    onValueChange?.(next);\n  };\n\n  const activeIcon = cloneElement(icon, {\n    size,\n    \"className\": cn(ratingVariants({ variant }), \"fill-current\"),\n    \"aria-hidden\": true,\n  });\n\n  const emptyIcon = cloneElement(icon, {\n    size,\n    \"className\": \"fill-muted-foreground/20 text-muted-foreground/30\",\n    \"aria-hidden\": true,\n  });\n\n  return (\n    <div\n      data-slot=\"rating\"\n      role={readOnly ? \"img\" : \"radiogroup\"}\n      aria-label={readOnly ? `${value} of ${max} stars` : \"Rating\"}\n      className={cn(\"flex gap-px\", disabled && \"opacity-50 pointer-events-none\", className)}\n      {...props}\n    >\n      {Array.from({ length: max }, (_, i) => i + 1).map((point) => (\n        <label\n          key={point}\n          className={cn(\n            \"[&_svg]:pointer-events-none\",\n            isInteractive && \"cursor-pointer transition-transform hover:scale-110\",\n            readOnly && \"pointer-events-none\",\n          )}\n          onMouseEnter={() => isInteractive && setHovered(point)}\n          onMouseLeave={() => isInteractive && setHovered(0)}\n          onClick={() => isInteractive && handleChange(point === value ? 0 : point)}\n        >\n          <input\n            type=\"radio\"\n            name={name}\n            value={point}\n            className=\"sr-only\"\n            readOnly={readOnly}\n            defaultChecked={value === point}\n            onChange={() => handleChange(point)}\n          />\n          {point <= active ? activeIcon : emptyIcon}\n        </label>\n      ))}\n    </div>\n  );\n}\n\nexport { Rating, ratingVariants, type RatingType };\n",
+      "type": "registry:component",
+      "target": "@components/ui/rating.tsx"
+    }
+  ],
+  "type": "registry:component"
+}

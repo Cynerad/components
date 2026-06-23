@@ -1,11 +1,24 @@
+"use client";
+
+import { Button } from "@/components/ui/button";
 import Container from "@/components/ui/container";
-import TagsInput from "@/registry/ui/tags-input";
+import { Rating } from "@/registry/ui/rating";
+import { Heart } from "lucide-react";
 
 export default function Home() {
   return (
     <Container>
       <div className="max-w-[400px]">
-        <TagsInput name="tags" />
+        <form
+          onSubmit={(event) => {
+            event.preventDefault();
+            const data = new FormData(event.currentTarget);
+            console.log(data.get("ratings-product"));
+          }}
+        >
+          <Rating name="ratings-product" variant="default" size={40} icon={<Heart  />} />
+          <Button type="submit">submit</Button>
+        </form>
       </div>
     </Container>
   );

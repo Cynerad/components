@@ -3,6 +3,9 @@
   "name": "scripts",
   "title": "scirpts",
   "description": "A set of scripts.",
+  "registryDependencies": [
+    "https://cynerad.github.io/support/public/r/support.json"
+  ],
   "files": [
     {
       "path": "scripts/make-action.ts",

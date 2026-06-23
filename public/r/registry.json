@@ -238,6 +238,7 @@
       "type": "registry:component",
       "title": "scirpts",
       "description": "A set of scripts.",
+      "registryDependencies": ["https://cynerad.github.io/support/public/r/support.json"],
       "files": [
         { "path": "scripts/make-action.ts", "type": "registry:lib", "target": "scripts/make-action.ts" },
         { "path": "scripts/make-component.ts", "type": "registry:lib", "target": "scripts/make-component.ts" },
@@ -250,6 +251,20 @@
         { "path": "scripts/stubs/table/columns.stub", "type": "registry:lib", "target": "scripts/stubs/table/columns.stub" },
         { "path": "scripts/stubs/table/data-table.stub", "type": "registry:lib", "target": "scripts/stubs/table/data-table.stub" },
         { "path": "scripts/stubs/table/page.stub", "type": "registry:lib", "target": "scripts/stubs/table/page.stub" }
+      ]
+    },
+    {
+      "name": "rating",
+      "type": "registry:component",
+      "title": "rating",
+      "description": "A rating component build with shadcn ui.",
+      "dependencies": ["lucide-react"],
+      "files": [
+        {
+          "path": "registry/ui/rating.tsx",
+          "type": "registry:component",
+          "target": "@components/ui/rating.tsx"
+        }
       ]
     }
   ]
