@@ -281,7 +281,6 @@
         }
       ]
     },
-
     {
       "name": "password-input",
       "type": "registry:component",
