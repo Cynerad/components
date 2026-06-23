@@ -3,7 +3,6 @@
 import { Button } from "@/components/ui/button";
 import Container from "@/components/ui/container";
 import { Rating } from "@/registry/ui/rating";
-import { Heart } from "lucide-react";
 
 export default function Home() {
   return (
@@ -16,7 +15,7 @@ export default function Home() {
             console.log(data.get("ratings-product"));
           }}
         >
-          <Rating name="ratings-product" variant="default" size={40} icon={<Heart  />} />
+          <Rating name="ratings-product" variant="default" />
           <Button type="submit">submit</Button>
         </form>
       </div>

@@ -28,7 +28,7 @@ type RatingType = {
   readOnly?: boolean;
   disabled?: boolean;
   onValueChange?: (value: number) => void;
-} & ComponentProps<"div">
+} & ComponentProps<"div">;
 
 function Rating({
   name,
@@ -77,30 +77,40 @@ function Rating({
       className={cn("flex gap-px", disabled && "opacity-50 pointer-events-none", className)}
       {...props}
     >
-      {Array.from({ length: max }, (_, i) => i + 1).map((point) => (
-        <label
-          key={point}
-          className={cn(
-            "[&_svg]:pointer-events-none",
-            isInteractive && "cursor-pointer transition-transform hover:scale-110",
-            readOnly && "pointer-events-none",
-          )}
-          onMouseEnter={() => isInteractive && setHovered(point)}
-          onMouseLeave={() => isInteractive && setHovered(0)}
-          onClick={() => isInteractive && handleChange(point === value ? 0 : point)}
-        >
-          <input
-            type="radio"
-            name={name}
-            value={point}
-            className="sr-only"
-            readOnly={readOnly}
-            defaultChecked={value === point}
-            onChange={() => handleChange(point)}
-          />
-          {point <= active ? activeIcon : emptyIcon}
-        </label>
-      ))}
+      {Array.from({ length: max }, (_, i) => i + 1).map((point) => {
+        const fill = readOnly ? Math.min(Math.max(active - (point - 1), 0), 1) : null;
+
+        return (
+          <label
+            key={point}
+            className={cn(
+              "[&_svg]:pointer-events-none relative inline-flex",
+              isInteractive && "cursor-pointer transition-transform hover:scale-110",
+              readOnly && "pointer-events-none",
+            )}
+            onMouseEnter={() => isInteractive && setHovered(point)}
+            onMouseLeave={() => isInteractive && setHovered(0)}
+          >
+            {!readOnly && (
+              <input
+                type="radio"
+                name={name}
+                value={point}
+                checked={value === point}
+                onChange={() => handleChange(point === value ? 0 : point)}
+                className="sr-only"
+              />
+            )}
+            {emptyIcon}
+            <span
+              className="absolute inset-0 overflow-hidden"
+              style={{ width: readOnly ? `${(fill ?? 0) * 100}%` : point <= active ? "100%" : "0%" }}
+            >
+              {activeIcon}
+            </span>
+          </label>
+        );
+      })}
     </div>
   );
 }
