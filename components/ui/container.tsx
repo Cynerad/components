@@ -1,11 +1,20 @@
-import { ReactNode } from "react"
+import { cn } from "@/lib/utils";
+import { ComponentProps } from "react";
 
-export default function Container({ children } : {children : ReactNode}){
+type ContainerType = ComponentProps<"div">;
+
+export default function Container({ className, children, ...props }: ContainerType) {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex gap-2 min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
+    <div className="flex min-h-screen items-center justify-center font-sans">
+      <main
+        className={cn(
+          "flex gap-2 min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 sm:items-start",
+          className,
+        )}
+        {...props}
+      >
         {children}
       </main>
     </div>
-  )
+  );
 }

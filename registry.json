@@ -309,6 +309,19 @@
           "target": "@components/ui/action-bar.tsx"
         }
       ]
+    },
+    {
+      "name": "container",
+      "type": "registry:component",
+      "title": "container",
+      "description": "container build with shadcn.",
+      "files": [
+        {
+          "path": "registry/ui/container.tsx",
+          "type": "registry:component",
+          "target": "@components/ui/container.tsx"
+        }
+      ]
     }
   ]
 }
