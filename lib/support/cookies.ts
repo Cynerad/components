@@ -10,16 +10,12 @@ type CookieOptions = {
 
 class CookieManager {
   set(name: string, value: CookieValue, options: CookieOptions = {}): void {
-    const stringValue = typeof value === "object"
-      ? JSON.stringify(value)
-      : String(value);
+    const stringValue = typeof value === "object" ? JSON.stringify(value) : String(value);
 
     let cookie = `${encodeURIComponent(name)}=${encodeURIComponent(stringValue)}`;
 
     if (options.expires) {
-      const expires = options.expires instanceof Date
-        ? options.expires
-        : new Date(Date.now() + options.expires * 1000);
+      const expires = options.expires instanceof Date ? options.expires : new Date(Date.now() + options.expires * 1000);
       cookie += `; expires=${expires.toUTCString()}`;
     }
 

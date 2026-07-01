@@ -5,9 +5,9 @@ type Method = "GET" | "POST" | "PUT" | "PATCH" | "DELETE";
 
 type CreateFetchClientType = {
   baseUrl: string;
-} & OptionsType
-& ExtraOptionsType
-& HooksType;
+} & OptionsType &
+  ExtraOptionsType &
+  HooksType;
 
 type OptionsType = {
   options?: RequestInit;
@@ -61,71 +61,27 @@ class CreateFetchClient {
   middlewares: BeforeRequestType[] = [];
   beforeResponses: BeforeResponseType[] = [];
 
-  constructor({
-    baseUrl,
-    options,
-    timeout,
-    isDevModeEnabled,
-    middleware,
-    beforeResponse,
-  }: CreateFetchClientType) {
-    this.setDefualt(
-      baseUrl,
-      options,
-      timeout,
-      isDevModeEnabled,
-      middleware,
-      beforeResponse,
-    );
+  constructor({ baseUrl, options, timeout, isDevModeEnabled, middleware, beforeResponse }: CreateFetchClientType) {
+    this.setDefualt(baseUrl, options, timeout, isDevModeEnabled, middleware, beforeResponse);
   }
 
   create() {
     return {
-      get: <T, ErrorT = unknown>({
-        endpoint,
-        config,
-        onError,
-      }: CreateRequestType<ErrorT>) => {
+      get: <T, ErrorT = unknown>({ endpoint, config, onError }: CreateRequestType<ErrorT>) => {
         return this.createRequest<T, ErrorT>("GET", endpoint, config, onError);
       },
-      post: <T, ErrorT = unknown>({
-        endpoint,
-        config,
-        onError,
-      }: CreateRequestType<ErrorT>) => {
+      post: <T, ErrorT = unknown>({ endpoint, config, onError }: CreateRequestType<ErrorT>) => {
         return this.createRequest<T, ErrorT>("POST", endpoint, config, onError);
       },
-      put: <T, ErrorT = unknown>({
-        endpoint,
-        config,
-        onError,
-      }: CreateRequestType<ErrorT>) => {
+      put: <T, ErrorT = unknown>({ endpoint, config, onError }: CreateRequestType<ErrorT>) => {
         return this.createRequest<T, ErrorT>("PUT", endpoint, config, onError);
       },
 
-      patch: <T, ErrorT = unknown>({
-        endpoint,
-        config,
-        onError,
-      }: CreateRequestType<ErrorT>) => {
-        return this.createRequest<T, ErrorT>(
-          "PATCH",
-          endpoint,
-          config,
-          onError,
-        );
+      patch: <T, ErrorT = unknown>({ endpoint, config, onError }: CreateRequestType<ErrorT>) => {
+        return this.createRequest<T, ErrorT>("PATCH", endpoint, config, onError);
       },
-      delete: <T, ErrorT = unknown>({
-        endpoint,
-        config,
-        onError,
-      }: CreateRequestType<ErrorT>) => {
-        return this.createRequest<T, ErrorT>(
-          "DELETE",
-          endpoint,
-          config,
-          onError,
-        );
+      delete: <T, ErrorT = unknown>({ endpoint, config, onError }: CreateRequestType<ErrorT>) => {
+        return this.createRequest<T, ErrorT>("DELETE", endpoint, config, onError);
       },
     };
   }
@@ -138,26 +94,17 @@ class CreateFetchClient {
   ) {
     const { options, isDevModeEnabled, timeout } = config;
 
-    const devModeStatus
-      = isDevModeEnabled ?? this.extraOptions.isDevModeEnabled;
+    const devModeStatus = isDevModeEnabled ?? this.extraOptions.isDevModeEnabled;
 
     let requestConfig = { ...this.config };
-    this.middlewares.forEach(
-      middleware => (requestConfig = middleware(requestConfig)),
-    );
+    this.middlewares.forEach((middleware) => (requestConfig = middleware(requestConfig)));
 
     const controller = new AbortController();
-    const timer = setTimeout(
-      () => controller.abort(),
-      timeout ?? this.extraOptions.timeout,
-    );
+    const timer = setTimeout(() => controller.abort(), timeout ?? this.extraOptions.timeout);
 
     this.log(this.baseUrl, devModeStatus);
     this.log(requestConfig, devModeStatus);
-    this.log(
-      `timeout : ${timeout ?? this.extraOptions.timeout}`,
-      devModeStatus,
-    );
+    this.log(`timeout : ${timeout ?? this.extraOptions.timeout}`, devModeStatus);
 
     try {
       let response = await fetch(this.resolveUrl(this.baseUrl, endpoint), {
@@ -171,9 +118,7 @@ class CreateFetchClient {
         signal: controller.signal,
       });
 
-      this.beforeResponses.forEach(
-        beforeResponse => (response = beforeResponse(response)),
-      );
+      this.beforeResponses.forEach((beforeResponse) => (response = beforeResponse(response)));
 
       if (!response.ok) {
         const errorData = await response.json();
@@ -181,23 +126,16 @@ class CreateFetchClient {
           onError(response);
         }
 
-        throw new ApiError(
-          `Request failed with status code ${response.status}`,
-          response.status,
-          response.statusText,
-          errorData,
-        );
+        throw new ApiError(`Request failed with status code ${response.status}`, response.status, response.statusText, errorData);
       }
 
       return response as ApiSuccess<T>;
-    }
-    catch (error) {
+    } catch (error) {
       if ((error as Error).name === "AbortError") {
         throw new ApiError("Request timeout", 408, "Request Timeout", null);
       }
       throw error;
-    }
-    finally {
+    } finally {
       clearTimeout(timer);
     }
   }
@@ -213,9 +151,7 @@ class CreateFetchClient {
   }
 
   private resolveUrl(baseUrl: string, endpoint: string) {
-    const url = endpoint.startsWith("http")
-      ? endpoint
-      : `${trim(baseUrl, "/")}/${trim(endpoint, "/")}`;
+    const url = endpoint.startsWith("http") ? endpoint : `${trim(baseUrl, "/")}/${trim(endpoint, "/")}`;
     return new URL(url);
   }
 

@@ -1,20 +1,30 @@
 import { cn } from "@/lib/utils";
+import { cva, type VariantProps } from "class-variance-authority";
 import { ComponentProps } from "react";
 
-type ContainerType = ComponentProps<"div">;
+const containerVariants = cva("mx-auto", {
+  variants: {
+    variant: {
+      fullMobileConstrainedPadded: "max-w-7xl sm:px-6 lg:px-8",
+      constrainedPadded: "max-w-7xl px-4 sm:px-6 lg:px-8",
+      fullMobileConstrainedBreakpointPadded: "max-w-screen-xl sm:px-6 lg:px-8",
+      constrainedBreakpointPadded: "max-w-screen-xl px-4 sm:px-6 lg:px-8",
+      narrowConstrainedPadded: "max-w-3xl px-4 sm:px-6 lg:px-8",
+    },
+  },
+  defaultVariants: {
+    variant: "narrowConstrainedPadded",
+  },
+});
 
-export default function Container({ className, children, ...props }: ContainerType) {
+type ContainerType = ComponentProps<"div"> & VariantProps<typeof containerVariants>;
+
+function Container({ className, children, variant, ...props }: ContainerType) {
   return (
-    <div className="flex min-h-screen items-center justify-center font-sans">
-      <main
-        className={cn(
-          "flex gap-2 min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 sm:items-start",
-          className,
-        )}
-        {...props}
-      >
-        {children}
-      </main>
+    <div className={cn(containerVariants({ variant }), className)} {...props}>
+      {children}
     </div>
   );
 }
+
+export { Container, containerVariants };

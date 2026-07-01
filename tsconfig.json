@@ -29,7 +29,12 @@
     ".next/types/**/*.ts",
     ".next/dev/types/**/*.ts",
     "**/*.mts",
-    "scripts/make-component.ts"
-, "app/not-found.tsx", "app/global-not-found.tsx", "scripts/stubs/table/columns.stub", "scripts/stubs/table/data-table.stub", "scripts/stubs/table/page.stub"  ],
+    "scripts/make-component.ts",
+    "app/not-found.tsx",
+    "app/global-not-found.tsx",
+    "scripts/stubs/table/columns.stub",
+    "scripts/stubs/table/data-table.stub",
+    "scripts/stubs/table/page.stub"
+  ],
   "exclude": ["node_modules"]
 }

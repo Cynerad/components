@@ -16,11 +16,7 @@ function hash(data: string, algorithm: HashedAlgorithm = DEFAULT_HASHED_ALGORITH
   return createHash(algorithm).update(data).digest("hex");
 }
 
-function verifyHash(
-  plainText: string,
-  hashedValue: string,
-  algorithm: HashedAlgorithm = DEFAULT_HASHED_ALGORITHM,
-): boolean {
+function verifyHash(plainText: string, hashedValue: string, algorithm: HashedAlgorithm = DEFAULT_HASHED_ALGORITHM): boolean {
   const newHash = hash(plainText, algorithm);
   return newHash === hashedValue;
 }
@@ -28,19 +24,13 @@ function verifyHash(
 // ============ HMAC (One-way, with secret) ============
 
 function sign(data: string, secret: string, algorithm: HashedAlgorithm = DEFAULT_HASHED_ALGORITHM) {
-  return createHmac(algorithm, secret)
-    .update(data)
-    .digest("hex");
+  return createHmac(algorithm, secret).update(data).digest("hex");
 }
 
-function verifySign(data: string, signature: string, secret: string, algorithm: HashedAlgorithm = DEFAULT_HASHED_ALGORITHM,
-): boolean {
+function verifySign(data: string, signature: string, secret: string, algorithm: HashedAlgorithm = DEFAULT_HASHED_ALGORITHM): boolean {
   const expected = sign(data, secret, algorithm);
 
-  return timingSafeEqual(
-    Buffer.from(expected),
-    Buffer.from(signature),
-  );
+  return timingSafeEqual(Buffer.from(expected), Buffer.from(signature));
 }
 
 // ============ ENCRYPTION (Two-way, reversible) ============
@@ -62,9 +52,7 @@ function encrypt(data: string, key: string, algorithm: EncryptionAlgorithmType =
   };
 
   const payloadStr = Buffer.from(JSON.stringify(payload)).toString("base64");
-  const mac = createHmac("sha256", key)
-    .update(payloadStr)
-    .digest("hex");
+  const mac = createHmac("sha256", key).update(payloadStr).digest("hex");
 
   payload.mac = mac;
 
@@ -77,15 +65,15 @@ function decrypt(encrypted: string, key: string, algorithm: EncryptionAlgorithmT
   const payload = JSON.parse(payloadStr);
 
   // Verify MAC
-  const dataToVerify = Buffer.from(JSON.stringify({
-    iv: payload.iv,
-    value: payload.value,
-    mac: "",
-  })).toString("base64");
+  const dataToVerify = Buffer.from(
+    JSON.stringify({
+      iv: payload.iv,
+      value: payload.value,
+      mac: "",
+    }),
+  ).toString("base64");
 
-  const expectedMac = createHmac("sha256", key)
-    .update(dataToVerify)
-    .digest("hex");
+  const expectedMac = createHmac("sha256", key).update(dataToVerify).digest("hex");
 
   if (payload.mac !== expectedMac) {
     throw new Error("MAC verification failed");

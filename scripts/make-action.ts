@@ -9,8 +9,8 @@ generateWithStub({
   filePath: `/actions/${kebab(actionName)}`,
   mime: "ts",
   stubPath: "scripts/stubs/action.stub",
-  replaceParameters : {
+  replaceParameters: {
     "{{blank}}": camel(actionName),
     "{{blank-cap}}": capitalize(actionName),
-  }
+  },
 });

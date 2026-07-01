@@ -322,6 +322,32 @@
           "target": "@components/ui/container.tsx"
         }
       ]
+    },
+    {
+      "name": "stat",
+      "type": "registry:component",
+      "title": "stat",
+      "description": "stat build with shadcn.",
+      "files": [
+        {
+          "path": "registry/ui/stat.tsx",
+          "type": "registry:component",
+          "target": "@components/ui/stat.tsx"
+        }
+      ]
+    },
+    {
+      "name": "status",
+      "type": "registry:component",
+      "title": "status",
+      "description": "status build with shadcn.",
+      "files": [
+        {
+          "path": "registry/ui/status.tsx",
+          "type": "registry:component",
+          "target": "@components/ui/status.tsx"
+        }
+      ]
     }
   ]
 }

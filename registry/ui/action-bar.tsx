@@ -199,4 +199,4 @@ function ActionBarItem({ render, className, onClick, close = true, ...props }: A
   });
 }
 
-export { ActionBar, ActionBarItem, ActionBarSeparator, ActionBarClose };
+export { ActionBar, ActionBarClose, ActionBarItem, ActionBarSeparator };

@@ -4,14 +4,12 @@ const SPECIAL_CHARECHTER_REGEX = /[\s!"#$%&'()*+,\-./:;<=>?@[\\\]^_`{|}~]+|(?=[A
 function after(text: string, value: string): string {
   const index = text.indexOf(value);
 
-  if (index === -1)
-    return "";
+  if (index === -1) return "";
   return text.slice(index + value.length);
 }
 
 function append(text: string, appendedString: string) {
-  if (appendedString.length === 0)
-    return text;
+  if (appendedString.length === 0) return text;
 
   return text + appendedString;
 }
@@ -19,8 +17,7 @@ function append(text: string, appendedString: string) {
 function before(text: string, value: string): string {
   const index = text.indexOf(value);
 
-  if (index === -1)
-    return "";
+  if (index === -1) return "";
   return text.slice(0, index);
 }
 
@@ -29,8 +26,7 @@ function between(text: string, firstValue: string, secondValue: string): string 
 }
 
 function trim(text: string, characters: string): string {
-  if (!text || !characters)
-    return text;
+  if (!text || !characters) return text;
   const escaped = characters.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
   const regex = new RegExp(`^[${escaped}]+|[${escaped}]+$`, "g");
 
@@ -49,13 +45,14 @@ function capitalize(text: string): string {
 }
 
 function headline(text: string): string {
-  return text.split(/(?<!^)(?=[A-Z])|[_\-\s]+/g).map(str => capitalize(str)).join(" ");
+  return text
+    .split(/(?<!^)(?=[A-Z])|[_\-\s]+/g)
+    .map((str) => capitalize(str))
+    .join(" ");
 }
 
 function kebab(text: string): string {
-  return text
-    .replace(/([a-z0-9])([A-Z])|[_\s]+/g, (_, a, b) => a && b ? `${a}-${b}` : "-")
-    .toLowerCase();
+  return text.replace(/([a-z0-9])([A-Z])|[_\s]+/g, (_, a, b) => (a && b ? `${a}-${b}` : "-")).toLowerCase();
 }
 
 function lowerCaseFirst(text: string): string {
@@ -70,22 +67,26 @@ function mask(text: string, paddingCharacter: string = "*", length: number) {
   return text.slice(0, length) + paddingCharacter.repeat(text.length - length);
 }
 
-function pad(text: string, length: number, paddingCharacter: string = " ", direction: "pad-center" | "pad-left" | "pad-right" = "pad-center") {
+function pad(
+  text: string,
+  length: number,
+  paddingCharacter: string = " ",
+  direction: "pad-center" | "pad-left" | "pad-right" = "pad-center",
+) {
   const textLength = text.length;
 
-  if (text.length >= length)
-    return text;
+  if (text.length >= length) return text;
 
   const totalPadding = length - textLength;
   const leftPadding = Math.floor(totalPadding / 2);
   const rightPadding = totalPadding - leftPadding;
 
   switch (direction) {
-    case "pad-center" :
+    case "pad-center":
       return paddingCharacter.repeat(leftPadding) + text + paddingCharacter.repeat(rightPadding);
-    case "pad-left" :
+    case "pad-left":
       return paddingCharacter.repeat(totalPadding) + text;
-    case "pad-right" :
+    case "pad-right":
       return text + paddingCharacter.repeat(totalPadding);
   }
 }
@@ -123,9 +124,7 @@ function snake(text: string): string {
 }
 
 function studly(text: string): string {
-  return text
-    .replace(/[_\-\s]+(.)?/g, (_, c) => (c ? c.toUpperCase() : ""))
-    .replace(/^(.)/, c => c.toUpperCase());
+  return text.replace(/[_\-\s]+(.)?/g, (_, c) => (c ? c.toUpperCase() : "")).replace(/^(.)/, (c) => c.toUpperCase());
 }
 
 function swap(object: Record<string, string>, text: string): string {
@@ -143,22 +142,16 @@ function uuid(): string {
   const timeHex = now.toString(16).padStart(12, "0");
 
   const random = crypto.getRandomValues(new Uint8Array(10));
-  const randomHex = [...random].map(b => b.toString(16).padStart(2, "0")).join("");
+  const randomHex = [...random].map((b) => b.toString(16).padStart(2, "0")).join("");
 
-  return (
-    `${timeHex.slice(0, 8)}-${
-      timeHex.slice(8, 12)}-7${
-      randomHex.slice(0, 3)}-${
-      ((Number.parseInt(randomHex.charAt(3), 16) & 0x3) | 0x8).toString(16)
-    }${randomHex.slice(4, 7)}-${
-      randomHex.slice(7)}`
-  );
+  return `${timeHex.slice(0, 8)}-${timeHex.slice(8, 12)}-7${randomHex.slice(0, 3)}-${(
+    (Number.parseInt(randomHex.charAt(3), 16) & 0x3) |
+    0x8
+  ).toString(16)}${randomHex.slice(4, 7)}-${randomHex.slice(7)}`;
 }
 
 function title(text: string): string {
-  return text
-    .toLowerCase()
-    .replace(/\b\p{L}/gu, char => char.toUpperCase());
+  return text.toLowerCase().replace(/\b\p{L}/gu, (char) => char.toUpperCase());
 }
 
 function upperCaseFirst(text: string): string {
@@ -201,4 +194,31 @@ const str = {
 };
 
 export default str;
-export { after, append, before, between, camel, capitalize, headline, kebab, limit, lowerCaseFirst, mask, pad, random, slug, snake, SPECIAL_CHARECTERS as SPECIAL_CHARTERS, SPECIAL_CHARECHTER_REGEX as SPECIAL_CHARTERS_REGEX, squish, studly, swap, title, trim, truncate, upperCaseFirst, uuid, wordCount };
+export {
+  after,
+  append,
+  before,
+  between,
+  camel,
+  capitalize,
+  headline,
+  kebab,
+  limit,
+  lowerCaseFirst,
+  mask,
+  pad,
+  random,
+  slug,
+  snake,
+  SPECIAL_CHARECTERS as SPECIAL_CHARTERS,
+  SPECIAL_CHARECHTER_REGEX as SPECIAL_CHARTERS_REGEX,
+  squish,
+  studly,
+  swap,
+  title,
+  trim,
+  truncate,
+  upperCaseFirst,
+  uuid,
+  wordCount,
+};

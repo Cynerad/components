@@ -21,11 +21,9 @@ function abbreviate(value: number | bigint, options?: Intl.NumberFormatOptions, 
 }
 
 function clamp(value: number, min: number, max: number) {
-  if (value <= min)
-    return min;
+  if (value <= min) return min;
 
-  if (value >= max)
-    return max;
+  if (value >= max) return max;
 
   return value;
 }
@@ -54,7 +52,7 @@ function forHumans(value: number | bigint, options?: Intl.NumberFormatOptions, l
     compactDisplay: "long",
     ...options,
   }).format(value);
-};
+}
 
 function ordinal(value: number) {
   const englishOrdinalRules = new Intl.PluralRules("en-US", { type: "ordinal" }).select(value) as "one" | "two" | "few" | "other";

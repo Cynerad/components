@@ -8,9 +8,9 @@ const SearchParamName = args[0];
 generateWithStub({
   filePath: `search-params/${kebab(SearchParamName)}`,
   mime: "ts",
-  stubPath : "scripts/stubs/search-params.stub",
- replaceParameters : {
-   "{{blank}}": camel(SearchParamName),
-   "{{blank-cap}}": capitalize(SearchParamName),
- } 
+  stubPath: "scripts/stubs/search-params.stub",
+  replaceParameters: {
+    "{{blank}}": camel(SearchParamName),
+    "{{blank-cap}}": capitalize(SearchParamName),
+  },
 });

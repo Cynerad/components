@@ -24,12 +24,7 @@ async function generate({ filePath, mime = "tsx" }: GenerateType) {
   await fileSystem.createFile(fileLocation);
 }
 
-async function generateWithStub({
-  filePath,
-  mime = "tsx",
-  stubPath,
-  replaceParameters,
-}: ReplacePathStupType) {
+async function generateWithStub({ filePath, mime = "tsx", stubPath, replaceParameters }: ReplacePathStupType) {
   const fileLocation = `${filePath}.${mime}`;
 
   if (!(await fileSystem.pathExists(stubPath))) {

@@ -1,19 +1,19 @@
-type colorType
-  = | "red"
-    | "green"
-    | "yellow"
-    | "blue"
-    | "magenta"
-    | "cyan"
-    | "white"
-    | "brightRed"
-    | "brightGreen"
-    | "brightYellow"
-    | "brightBlue"
-    | "brightMagenta"
-    | "brightCyan"
-    | "gray"
-    | "orange";
+type colorType =
+  | "red"
+  | "green"
+  | "yellow"
+  | "blue"
+  | "magenta"
+  | "cyan"
+  | "white"
+  | "brightRed"
+  | "brightGreen"
+  | "brightYellow"
+  | "brightBlue"
+  | "brightMagenta"
+  | "brightCyan"
+  | "gray"
+  | "orange";
 
 const COLOR_MAP: Record<colorType, string> = {
   red: "\x1B[31m",

@@ -18,7 +18,6 @@ export const baseUrlKeys = {
   columnFilters: "filters",
 } as const;
 
-
 export function createParams<T extends ParserMap>(
   extraParams: T,
   extraUrlKeys?: UrlKeys<T>,

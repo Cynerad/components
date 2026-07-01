@@ -9,7 +9,7 @@
   "files": [
     {
       "path": "scripts/make-action.ts",
-      "content": "import { generateWithStub } from \"@/lib/support/generator\";\nimport { camel, capitalize, kebab } from \"@/lib/support/string\";\n\nconst args = process.argv.slice(2);\n\nconst actionName = args[0];\n\ngenerateWithStub({\n  filePath: `/actions/${kebab(actionName)}`,\n  mime: \"ts\",\n  stubPath: \"scripts/stubs/action.stub\",\n  replaceParameters : {\n    \"{{blank}}\": camel(actionName),\n    \"{{blank-cap}}\": capitalize(actionName),\n  }\n});\n",
+      "content": "import { generateWithStub } from \"@/lib/support/generator\";\nimport { camel, capitalize, kebab } from \"@/lib/support/string\";\n\nconst args = process.argv.slice(2);\n\nconst actionName = args[0];\n\ngenerateWithStub({\n  filePath: `/actions/${kebab(actionName)}`,\n  mime: \"ts\",\n  stubPath: \"scripts/stubs/action.stub\",\n  replaceParameters: {\n    \"{{blank}}\": camel(actionName),\n    \"{{blank-cap}}\": capitalize(actionName),\n  },\n});\n",
       "type": "registry:lib",
       "target": "scripts/make-action.ts"
     },
@@ -21,7 +21,7 @@
     },
     {
       "path": "scripts/make-search-parameters.ts",
-      "content": "import { generateWithStub } from \"@/lib/support/generator\";\nimport { camel, capitalize, kebab } from \"@/lib/support/string\";\n\nconst args = process.argv.slice(2);\n\nconst SearchParamName = args[0];\n\ngenerateWithStub({\n  filePath: `search-params/${kebab(SearchParamName)}`,\n  mime: \"ts\",\n  stubPath : \"scripts/stubs/search-params.stub\",\n replaceParameters : {\n   \"{{blank}}\": camel(SearchParamName),\n   \"{{blank-cap}}\": capitalize(SearchParamName),\n } \n});\n",
+      "content": "import { generateWithStub } from \"@/lib/support/generator\";\nimport { camel, capitalize, kebab } from \"@/lib/support/string\";\n\nconst args = process.argv.slice(2);\n\nconst SearchParamName = args[0];\n\ngenerateWithStub({\n  filePath: `search-params/${kebab(SearchParamName)}`,\n  mime: \"ts\",\n  stubPath: \"scripts/stubs/search-params.stub\",\n  replaceParameters: {\n    \"{{blank}}\": camel(SearchParamName),\n    \"{{blank-cap}}\": capitalize(SearchParamName),\n  },\n});\n",
       "type": "registry:lib",
       "target": "scripts/make-search-parameters.ts"
     },

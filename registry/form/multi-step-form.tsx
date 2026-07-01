@@ -208,7 +208,7 @@ export function StepsWrapper<T extends FieldValues>({ form, children }: { form: 
     });
 
     setSteps(stepConfigs);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

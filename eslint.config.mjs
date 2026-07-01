@@ -4,7 +4,7 @@ import nextTs from "eslint-config-next/typescript";
 
 const eslintConfig = defineConfig([
   {
-    ignores: [".source/**"],
+    ignores: [".source/**", "playground/**"],
   },
   ...nextVitals,
   ...nextTs,
