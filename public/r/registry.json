@@ -348,6 +348,20 @@
           "target": "@components/ui/status.tsx"
         }
       ]
+    },
+
+    {
+      "name": "editable",
+      "type": "registry:component",
+      "title": "editable",
+      "description": "editable build with shadcn.",
+      "files": [
+        {
+          "path": "registry/ui/editable.tsx",
+          "type": "registry:component",
+          "target": "@components/ui/editable.tsx"
+        }
+      ]
     }
   ]
 }
