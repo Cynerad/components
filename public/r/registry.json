@@ -362,6 +362,20 @@
           "target": "@components/ui/editable.tsx"
         }
       ]
+    },
+
+    {
+      "name": "compare-slider",
+      "type": "registry:component",
+      "title": "compare-slider",
+      "description": "compare-slider build with shadcn.",
+      "files": [
+        {
+          "path": "registry/ui/compare-slider.tsx",
+          "type": "registry:component",
+          "target": "@components/ui/compare-slider.tsx"
+        }
+      ]
     }
   ]
 }
