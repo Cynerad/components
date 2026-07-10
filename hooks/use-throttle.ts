@@ -10,8 +10,7 @@ function useThrottle<T>(value: T, interval: number = 500) {
     if (lastUpdated.current && now >= lastUpdated.current + interval) {
       lastUpdated.current = now;
       setThrottledValue(value);
-    }
-    else {
+    } else {
       const id = window.setTimeout(() => {
         lastUpdated.current = now;
         setThrottledValue(value);

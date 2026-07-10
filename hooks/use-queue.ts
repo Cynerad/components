@@ -4,7 +4,7 @@ function useQueue<T>(initialValue: T[] = []) {
   const [queue, setQueue] = useState(initialValue);
 
   const add = useCallback((element: T) => {
-    setQueue(q => [...q, element]);
+    setQueue((q) => [...q, element]);
   }, []);
 
   const remove = useCallback(() => {

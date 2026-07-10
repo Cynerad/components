@@ -17,8 +17,6 @@ import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import z from "zod";
 
-import { Code, Layers, Rocket } from "lucide-react";
-
 const formSchema = z.object({
   title: z.string().max(9),
 });
@@ -29,7 +27,6 @@ const timelineItems = [
     date: "January 15, 2025",
     title: "Project Kickoff",
     description: "Initial meeting to define scope.",
-    icon: Rocket,
   },
   {
     id: "design-phase",
@@ -37,7 +34,6 @@ const timelineItems = [
     date: "February 1, 2025",
     title: "Design Phase",
     description: "Created wireframes and mockups.",
-    icon: Layers,
   },
   {
     id: "development",
@@ -45,9 +41,9 @@ const timelineItems = [
     date: "March 1, 2025",
     title: "Development",
     description: "Building core features.",
-    icon: Code,
   },
 ];
+
 export default function Home() {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -86,24 +82,8 @@ export default function Home() {
             </Field>
           )}
         />
-
-      <Timeline activeIndex={1} className="[--timeline-dot-size:2rem]">
-        {timelineItems.map((item) => (
-          <TimelineItem key={item.id}>
-            <TimelineDot>
-              <item.icon className="size-3.5" />
-            </TimelineDot>
-            <TimelineConnector />
-            <TimelineContent>
-              <TimelineHeader>
-                <TimelineTime dateTime={item.dateTime}>{item.date}</TimelineTime>
-                <TimelineTitle>{item.title}</TimelineTitle>
-              </TimelineHeader>
-              <TimelineDescription>{item.description}</TimelineDescription>
-            </TimelineContent>
-          </TimelineItem>
-        ))}
-      </Timeline>
+        <Button type="submit">submit</Button>
+      </form>*/}
     </Container>
   );
 }

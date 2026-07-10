@@ -14,11 +14,7 @@ function getPreferredLanguageServerSnapshot(): string {
 }
 
 function usePreferredLanguage() {
-  return useSyncExternalStore(
-    usePreferredLanguageSubscribe,
-    getPreferredLanguageSnapshot,
-    getPreferredLanguageServerSnapshot,
-  );
+  return useSyncExternalStore(usePreferredLanguageSubscribe, getPreferredLanguageSnapshot, getPreferredLanguageServerSnapshot);
 }
 
 export default usePreferredLanguage;

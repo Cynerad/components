@@ -1,21 +1,20 @@
 import { useCallback, useState } from "react";
 
-function useCounter(startingValue: number = 0, options: {
-  min?: number;
-  max?: number;
-} = {}) {
+function useCounter(
+  startingValue: number = 0,
+  options: {
+    min?: number;
+    max?: number;
+  } = {},
+) {
   const { min, max } = options;
 
   if (typeof min === "number" && startingValue < min) {
-    throw new Error(
-      `Your starting value of ${startingValue} is less than your min of ${min}.`,
-    );
+    throw new Error(`Your starting value of ${startingValue} is less than your min of ${min}.`);
   }
 
   if (typeof max === "number" && startingValue > max) {
-    throw new Error(
-      `Your starting value of ${startingValue} is greater than your max of ${max}.`,
-    );
+    throw new Error(`Your starting value of ${startingValue} is greater than your max of ${max}.`);
   }
 
   const [count, setCount] = useState(startingValue);

@@ -84,5 +84,3 @@ export function useActiveElement<T extends Element = HTMLElement>(options: UseAc
 
   return useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);
 }
-
-

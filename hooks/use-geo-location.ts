@@ -48,24 +48,16 @@ export function useGeolocation(options: PositionOptions = {}) {
     };
 
     const onEventError = (error: GeolocationPositionError) => {
-      setState(s => ({
+      setState((s) => ({
         ...s,
         loading: false,
         error,
       }));
     };
 
-    navigator.geolocation.getCurrentPosition(
-      onEvent,
-      onEventError,
-      optionsRef.current,
-    );
+    navigator.geolocation.getCurrentPosition(onEvent, onEventError, optionsRef.current);
 
-    const watchId = navigator.geolocation.watchPosition(
-      onEvent,
-      onEventError,
-      optionsRef.current,
-    );
+    const watchId = navigator.geolocation.watchPosition(onEvent, onEventError, optionsRef.current);
 
     return () => {
       navigator.geolocation.clearWatch(watchId);

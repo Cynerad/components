@@ -35,11 +35,7 @@ type SetValue<T> = T | ((prevState: T) => T);
 function useSessionStorage<T>(key: string, initialValue: T): [T, (v: SetValue<T>) => void] {
   const getSnapshot = () => getSessionStorageItem(key);
 
-  const store = useSyncExternalStore(
-    useSessionStorageSubscribe,
-    getSnapshot,
-    getSessionStorageServerSnapshot,
-  );
+  const store = useSyncExternalStore(useSessionStorageSubscribe, getSnapshot, getSessionStorageServerSnapshot);
 
   const setState = useCallback(
     (v: SetValue<T>) => {
@@ -49,12 +45,10 @@ function useSessionStorage<T>(key: string, initialValue: T): [T, (v: SetValue<T>
 
         if (nextState === undefined || nextState === null) {
           removeSessionStorageItem(key);
-        }
-        else {
+        } else {
           setSessionStorageItem(key, nextState);
         }
-      }
-      catch (e) {
+      } catch (e) {
         console.warn(e);
       }
     },
@@ -62,10 +56,7 @@ function useSessionStorage<T>(key: string, initialValue: T): [T, (v: SetValue<T>
   );
 
   useEffect(() => {
-    if (
-      getSessionStorageItem(key) === null
-      && typeof initialValue !== "undefined"
-    ) {
+    if (getSessionStorageItem(key) === null && typeof initialValue !== "undefined") {
       setSessionStorageItem(key, initialValue);
     }
   }, [key, initialValue]);

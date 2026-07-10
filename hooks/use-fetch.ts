@@ -5,20 +5,14 @@ type FetchState<T> = {
   error?: Error;
 };
 
-type FetchAction<T>
-  = | { type: "loading" }
-    | { type: "fetched"; payload: T }
-    | { type: "error"; payload: Error };
+type FetchAction<T> = { type: "loading" } | { type: "fetched"; payload: T } | { type: "error"; payload: Error };
 
 const initialState: FetchState<unknown> = {
   data: undefined,
   error: undefined,
 };
 
-function fetchReducer<T>(
-  state: FetchState<T>,
-  action: FetchAction<T>,
-): FetchState<T> {
+function fetchReducer<T>(state: FetchState<T>, action: FetchAction<T>): FetchState<T> {
   switch (action.type) {
     case "loading":
       return { data: undefined, error: undefined };
@@ -34,16 +28,10 @@ function fetchReducer<T>(
   }
 }
 
-function useFetch<T = unknown>(
-  url: string,
-  options?: RequestInit,
-): FetchState<T> {
+function useFetch<T = unknown>(url: string, options?: RequestInit): FetchState<T> {
   const cacheRef = useRef<Record<string, T>>({});
 
-  const [state, dispatch] = useReducer(
-    fetchReducer<T>,
-    initialState as FetchState<T>,
-  );
+  const [state, dispatch] = useReducer(fetchReducer<T>, initialState as FetchState<T>);
 
   const onFetch = useEffectEvent((url: string) => {
     return fetch(url, options);
@@ -75,8 +63,7 @@ function useFetch<T = unknown>(
         if (!ignore) {
           dispatch({ type: "fetched", payload: json });
         }
-      }
-      catch (err) {
+      } catch (err) {
         if (!ignore) {
           dispatch({
             type: "error",

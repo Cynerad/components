@@ -36,27 +36,20 @@ export function useLocalStorage<T>(
   const getSnapshot = (): string | null => getLocalStorageItem(key);
 
   /* Subscribe to storage events */
-  const store = useSyncExternalStore(
-    useLocalStorageSubscribe,
-    getSnapshot,
-    getLocalStorageServerSnapshot,
-  );
+  const store = useSyncExternalStore(useLocalStorageSubscribe, getSnapshot, getLocalStorageServerSnapshot);
 
   const setState = useCallback(
     (v: T | ((prev: T | undefined) => T | undefined)) => {
       try {
         const prev = store ? JSON.parse(store) : undefined;
-        const nextState
-          = typeof v === "function" ? (v as (prev: T | undefined) => T | undefined)(prev) : v;
+        const nextState = typeof v === "function" ? (v as (prev: T | undefined) => T | undefined)(prev) : v;
 
         if (nextState === undefined || nextState === null) {
           removeLocalStorageItem(key);
-        }
-        else {
+        } else {
           setLocalStorageItem(key, nextState);
         }
-      }
-      catch (e) {
+      } catch (e) {
         console.warn(e);
       }
     },

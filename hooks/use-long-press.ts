@@ -23,10 +23,7 @@ function isTouchEvent(e: Event): e is TouchEvent {
   return "touches" in e;
 }
 
-function useLongPress(
-  callback: (e: MouseEvent | TouchEvent) => void,
-  options: LongPressOptions = {},
-): LongPressEventHandlers {
+function useLongPress(callback: (e: MouseEvent | TouchEvent) => void, options: LongPressOptions = {}): LongPressEventHandlers {
   const { threshold = 400, onStart, onFinish, onCancel } = options;
 
   const isLongPressActive = useRef(false);
@@ -39,11 +36,9 @@ function useLongPress(
     }
 
     const start = (event: MouseEvent | TouchEvent) => {
-      if (!isMouseEvent(event) && !isTouchEvent(event))
-        return;
+      if (!isMouseEvent(event) && !isTouchEvent(event)) return;
 
-      if (onStart)
-        onStart(event);
+      if (onStart) onStart(event);
 
       isPressed.current = true;
       timerId.current = window.setTimeout(() => {
@@ -53,16 +48,12 @@ function useLongPress(
     };
 
     const cancel = (event: MouseEvent | TouchEvent) => {
-      if (!isMouseEvent(event) && !isTouchEvent(event))
-        return;
+      if (!isMouseEvent(event) && !isTouchEvent(event)) return;
 
       if (isLongPressActive.current) {
-        if (onFinish)
-          onFinish(event);
-      }
-      else if (isPressed.current) {
-        if (onCancel)
-          onCancel(event);
+        if (onFinish) onFinish(event);
+      } else if (isPressed.current) {
+        if (onCancel) onCancel(event);
       }
 
       isLongPressActive.current = false;

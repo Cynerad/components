@@ -6,16 +6,11 @@ type UseKeyPressOptions = {
   eventOptions?: AddEventListenerOptions;
 };
 
-export function useKeyPress(
-  key: string,
-  cb: (event: KeyboardEvent) => void,
-  options: UseKeyPressOptions = {},
-) {
+export function useKeyPress(key: string, cb: (event: KeyboardEvent) => void, options: UseKeyPressOptions = {}) {
   const { event = "keydown", target = window, eventOptions } = options;
 
   const onListen = useEffectEvent(() => {
-    if (!target?.addEventListener)
-      return;
+    if (!target?.addEventListener) return;
 
     const handler = (e: KeyboardEvent) => {
       if (e.key === key) {

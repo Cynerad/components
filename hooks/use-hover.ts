@@ -15,14 +15,8 @@ export function useHover() {
   const customRef = useCallback(
     (node: HTMLElement | null) => {
       if (previousNode.current?.nodeType === Node.ELEMENT_NODE) {
-        previousNode.current.removeEventListener(
-          "mouseenter",
-          handleMouseEnter,
-        );
-        previousNode.current.removeEventListener(
-          "mouseleave",
-          handleMouseLeave,
-        );
+        previousNode.current.removeEventListener("mouseenter", handleMouseEnter);
+        previousNode.current.removeEventListener("mouseleave", handleMouseLeave);
       }
 
       if (node?.nodeType === Node.ELEMENT_NODE) {

@@ -1,4 +1,4 @@
-import useIsomorphicLayoutEffect from "@/hooks/use-is-morphic-effect";
+import useIsomorphicLayoutEffect from "@/hooks/use-isomorphic-layout-effect";
 import { useRef, useState } from "react";
 
 type UseScrollLockOptions = {

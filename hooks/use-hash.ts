@@ -1,4 +1,4 @@
-import useIsomorphicLayoutEffect from "@/hooks/use-is-morphic-effect";
+import useIsomorphicLayoutEffect from "@/hooks/use-isomorphic-layout-effect";
 import { useCallback, useState } from "react";
 
 type UseHashReturn = [string, (newHash: string) => void];

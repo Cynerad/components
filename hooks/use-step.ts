@@ -36,13 +36,13 @@ function useStep(maxStep: number): [number, UseStepActions] {
 
   const goToNextStep = useCallback(() => {
     if (canGoToNextStep) {
-      setCurrentStep(step => step + 1);
+      setCurrentStep((step) => step + 1);
     }
   }, [canGoToNextStep]);
 
   const goToPrevStep = useCallback(() => {
     if (canGoToPrevStep) {
-      setCurrentStep(step => step - 1);
+      setCurrentStep((step) => step - 1);
     }
   }, [canGoToPrevStep]);
 

@@ -39,7 +39,7 @@ function useMouse<T extends HTMLElement = HTMLElement>() {
         next.elementPositionY = elementPositionY;
       }
 
-      setState(prev => ({ ...prev, ...next }));
+      setState((prev) => ({ ...prev, ...next }));
     };
 
     document.addEventListener("mousemove", handleMouseMove);
@@ -50,4 +50,3 @@ function useMouse<T extends HTMLElement = HTMLElement>() {
 }
 
 export default useMouse;
-;

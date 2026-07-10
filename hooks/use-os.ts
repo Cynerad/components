@@ -1,5 +1,5 @@
 import { useState } from "react";
-import useIsomorphicLayoutEffect from "@/hooks/use-is-morphic-effect";
+import useIsomorphicLayoutEffect from "@/hooks/use-isomorphic-layout-effect";
 
 export type UseOSReturnValue = "undetermined" | "macos" | "ios" | "windows" | "android" | "linux" | "chromeos";
 
