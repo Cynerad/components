@@ -349,7 +349,6 @@
         }
       ]
     },
-
     {
       "name": "editable",
       "type": "registry:component",
@@ -363,7 +362,6 @@
         }
       ]
     },
-
     {
       "name": "compare-slider",
       "type": "registry:component",
@@ -374,6 +372,25 @@
           "path": "registry/ui/compare-slider.tsx",
           "type": "registry:component",
           "target": "@components/ui/compare-slider.tsx"
+        }
+      ]
+    },
+    {
+      "name": "timeline",
+      "type": "registry:component",
+      "title": "timeline",
+      "description": "timeline build with shadcn.",
+      "dependencies": ["@base-ui/react"],
+      "files": [
+        {
+          "path": "registry/ui/timeline.tsx",
+          "type": "registry:component",
+          "target": "@components/ui/timeline.tsx"
+        },
+        {
+          "path": "hooks/compose-ref.ts",
+          "type": "registry:hook",
+          "target": "@hooks/compose-ref.ts"
         }
       ]
     }

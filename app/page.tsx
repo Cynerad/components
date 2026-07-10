@@ -1,28 +1,109 @@
 "use client";
 
 import { Container } from "@/components/ui/container";
-import { CompareSlider, CompareSliderAfter, CompareSliderBefore, CompareSliderHandle } from "@/registry/ui/compare-slider";
+import {
+  Timeline,
+  TimelineConnector,
+  TimelineContent,
+  TimelineDescription,
+  TimelineDot,
+  TimelineHeader,
+  TimelineItem,
+  TimelineTime,
+  TimelineTitle,
+} from "@/registry/ui/timeline";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import { toast } from "sonner";
+import z from "zod";
 
+import { Code, Layers, Rocket } from "lucide-react";
+
+const formSchema = z.object({
+  title: z.string().max(9),
+});
+const timelineItems = [
+  {
+    id: "project-kickoff",
+    dateTime: "2025-01-15",
+    date: "January 15, 2025",
+    title: "Project Kickoff",
+    description: "Initial meeting to define scope.",
+    icon: Rocket,
+  },
+  {
+    id: "design-phase",
+    dateTime: "2025-02-01",
+    date: "February 1, 2025",
+    title: "Design Phase",
+    description: "Created wireframes and mockups.",
+    icon: Layers,
+  },
+  {
+    id: "development",
+    dateTime: "2025-03-01",
+    date: "March 1, 2025",
+    title: "Development",
+    description: "Building core features.",
+    icon: Code,
+  },
+];
 export default function Home() {
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      title: "",
+    },
+  });
+
+  function onSubmit(data: z.infer<typeof formSchema>) {
+    toast("You submitted the following values:", {
+      description: (
+        <pre className="mt-2 w-[320px] overflow-x-auto rounded-md bg-code p-4 text-code-foreground">
+          <code>{JSON.stringify(data, null, 2)}</code>
+        </pre>
+      ),
+      position: "bottom-right",
+      classNames: {
+        content: "flex flex-col gap-2",
+      },
+      style: {
+        "--border-radius": "calc(var(--radius)  + 4px)",
+      } as React.CSSProperties,
+    });
+  }
   return (
     <Container>
-      <CompareSlider defaultValue={50} className="aspect-video w-full rounded-lg">
-        <CompareSliderAfter>
-          <img
-            src="https://raw.githubusercontent.com/nerdyman/stuff/main/libs/react-compare-slider/docs/hero.gif"
-            alt="After"
-            className="h-full w-full object-cover"
-          />
-        </CompareSliderAfter>
-        <CompareSliderBefore>
-          <img
-            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTbblKnALScxPFvoHuWD7ooqcySC7GKQquIqwuuTqfGug&s"
-            alt="Before"
-            className="h-full w-full object-cover"
-          />
-        </CompareSliderBefore>
-        <CompareSliderHandle />
-      </CompareSlider>
+      {/*<form onSubmit={form.handleSubmit(onSubmit)}>
+        <Controller
+          name="title"
+          control={form.control}
+          render={({ field, fieldState }) => (
+            <Field data-invalid={fieldState.invalid}>
+              <FieldLabel htmlFor="form-rhf-demo-title">Bug Title</FieldLabel>
+
+              {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+            </Field>
+          )}
+        />
+
+      <Timeline activeIndex={1} className="[--timeline-dot-size:2rem]">
+        {timelineItems.map((item) => (
+          <TimelineItem key={item.id}>
+            <TimelineDot>
+              <item.icon className="size-3.5" />
+            </TimelineDot>
+            <TimelineConnector />
+            <TimelineContent>
+              <TimelineHeader>
+                <TimelineTime dateTime={item.dateTime}>{item.date}</TimelineTime>
+                <TimelineTitle>{item.title}</TimelineTitle>
+              </TimelineHeader>
+              <TimelineDescription>{item.description}</TimelineDescription>
+            </TimelineContent>
+          </TimelineItem>
+        ))}
+      </Timeline>
     </Container>
   );
 }
