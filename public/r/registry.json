@@ -388,7 +388,7 @@
           "target": "@components/ui/timeline.tsx"
         },
         {
-          "path": "hooks/use-compose-ref.ts",
+          "path": "hooks/use-composed-refs.ts",
           "type": "registry:hook"
         },
         {
