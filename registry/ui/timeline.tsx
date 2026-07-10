@@ -1,5 +1,5 @@
 import { useDirection } from "@/components/ui/direction";
-import { useComposedRefs } from "@/hooks/compose-ref";
+import { useComposedRefs } from "@/hooks/use-composed-refs";
 import useIsomorphicLayoutEffect from "@/hooks/use-isomorphic-layout-effect";
 import { cn } from "@/lib/utils";
 import { useRender } from "@base-ui/react";

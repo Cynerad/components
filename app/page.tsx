@@ -1,17 +1,9 @@
 "use client";
 
 import { Container } from "@/components/ui/container";
-import {
-  Timeline,
-  TimelineConnector,
-  TimelineContent,
-  TimelineDescription,
-  TimelineDot,
-  TimelineHeader,
-  TimelineItem,
-  TimelineTime,
-  TimelineTitle,
-} from "@/registry/ui/timeline";
+import { SpeedDial, SpeedDialContent, SpeedDialItem, SpeedDialTrigger } from "@/registry/ui/speed-dial";
+import { Copy, Plus, Share } from "lucide-react";
+
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
@@ -84,6 +76,21 @@ export default function Home() {
         />
         <Button type="submit">submit</Button>
       </form>*/}
+      <div className="fixed bottom-5 right-5">
+        <SpeedDial>
+          <SpeedDialTrigger>
+            <Plus />
+          </SpeedDialTrigger>
+          <SpeedDialContent>
+            <SpeedDialItem onClick={() => console.log("copy")}>
+              <Copy />
+            </SpeedDialItem>
+            <SpeedDialItem onClick={() => console.log("share")}>
+              <Share />
+            </SpeedDialItem>
+          </SpeedDialContent>
+        </SpeedDial>
+      </div>
     </Container>
   );
 }

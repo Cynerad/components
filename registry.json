@@ -396,6 +396,20 @@
           "type": "registry:hook"
         }
       ]
+    },
+    {
+      "name": "speed-dial",
+      "type": "registry:component",
+      "title": "speed-dial",
+      "description": "speed-dial build with shadcn.",
+      "dependencies": ["popover", "button", "@base-ui/react"],
+      "files": [
+        {
+          "path": "registry/ui/speed-dial.tsx",
+          "type": "registry:component",
+          "target": "@components/ui/speed-dial.tsx"
+        }
+      ]
     }
   ]
 }
