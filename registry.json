@@ -388,9 +388,12 @@
           "target": "@components/ui/timeline.tsx"
         },
         {
-          "path": "hooks/compose-ref.ts",
-          "type": "registry:hook",
-          "target": "@hooks/compose-ref.ts"
+          "path": "hooks/use-compose-ref.ts",
+          "type": "registry:hook"
+        },
+        {
+          "path": "hooks/use-is-morphic-effect.ts",
+          "type": "registry:hook"
         }
       ]
     }
