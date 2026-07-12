@@ -15,10 +15,18 @@ import {
 import { move } from "@dnd-kit/helpers";
 import { DragDropProvider } from "@dnd-kit/react";
 import { useSortable } from "@dnd-kit/react/sortable";
+import { KeyboardEvent, useState } from "react";
 
 type SortableChipType = {
   id: string;
   index: number;
+};
+
+export type TagsInputType = {
+  items?: string[];
+  selectedItems?: string[];
+  setSelectedItemsAction?: (value: string[]) => void;
+  canAddExtraTag?: boolean;
 };
 
 function SortableChip({ id, index }: SortableChipType) {
@@ -31,14 +39,25 @@ function SortableChip({ id, index }: SortableChipType) {
   );
 }
 
-export type TagsInputType = {
-  items?: string[];
-  selectedItems?: string[];
-  setSelectedItemsAction?: (value: string[]) => void;
-};
-
-export function TagsInput({ items = [], selectedItems = [], setSelectedItemsAction }: TagsInputType) {
+export function TagsInput({ items = [], selectedItems = [], setSelectedItemsAction, canAddExtraTag = true }: TagsInputType) {
+  const [inputValue, setInputValue] = useState("");
   const anchor = useComboboxAnchor();
+
+  function add(event: KeyboardEvent<HTMLInputElement>) {
+    if (!canAddExtraTag) return;
+
+    if (event.key !== "Enter") return;
+
+    const value = inputValue.trim();
+    if (!value) return;
+    if (selectedItems.includes(value)) {
+      setInputValue("");
+      return;
+    }
+
+    setSelectedItemsAction?.([...selectedItems, value]);
+    setInputValue("");
+  }
 
   return (
     <DragDropProvider
@@ -56,7 +75,7 @@ export function TagsInput({ items = [], selectedItems = [], setSelectedItemsActi
                 {values.map((value: string, index: number) => (
                   <SortableChip key={value} id={value} index={index} />
                 ))}
-                <ComboboxChipsInput />
+                <ComboboxChipsInput value={inputValue} onChange={(e) => setInputValue(e.target.value)} onKeyDown={add} />
               </>
             )}
           </ComboboxValue>
