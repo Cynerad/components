@@ -54,7 +54,7 @@ export function TagsInput({ items = [], selectedItems = [], setSelectedItemsActi
             {(values: string[]) => (
               <>
                 {values.map((value: string, index: number) => (
-                  <SortableChip key={index} id={value} index={index} />
+                  <SortableChip key={value} id={value} index={index} />
                 ))}
                 <ComboboxChipsInput />
               </>
