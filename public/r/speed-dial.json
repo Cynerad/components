@@ -4,6 +4,9 @@
   "title": "speed-dial",
   "description": "speed-dial build with shadcn.",
   "dependencies": [
+    "@base-ui/react"
+  ],
+  "registryDependencies": [
     "popover",
     "button",
     "@base-ui/react"

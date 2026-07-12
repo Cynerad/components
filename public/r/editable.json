@@ -3,6 +3,9 @@
   "name": "editable",
   "title": "editable",
   "description": "editable build with shadcn.",
+  "dependencies": [
+    "@base-ui/react"
+  ],
   "files": [
     {
       "path": "registry/ui/editable.tsx",

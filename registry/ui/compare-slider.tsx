@@ -100,4 +100,4 @@ function CompareSliderHandle({ className, ...props }: ComponentProps<"div">) {
   );
 }
 
-export { CompareSlider, CompareSliderBefore, CompareSliderAfter, CompareSliderHandle };
+export { CompareSlider, CompareSliderAfter, CompareSliderBefore, CompareSliderHandle };

@@ -1,7 +1,7 @@
 {
   "$schema": "https://ui.shadcn.com/schema/registry-item.json",
   "name": "dd",
-  "title": "tags input",
+  "title": "dd :) ",
   "description": "A dd build with shadcn ui.",
   "dependencies": [
     "lucide-react"

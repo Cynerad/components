@@ -195,8 +195,8 @@
       "type": "registry:component",
       "title": "tags input",
       "description": "A tags input build with shadcn ui.",
-      "registryDependencies": ["badge", "button", "input"],
-      "dependencies": ["lucide-react"],
+      "registryDependencies": ["combobox"],
+      "dependencies": ["@dnd-kit/helpers", "@dnd-kit/react"],
       "files": [
         {
           "path": "registry/ui/tags-input.tsx",
@@ -208,7 +208,7 @@
     {
       "name": "dd",
       "type": "registry:component",
-      "title": "tags input",
+      "title": "dd :) ",
       "description": "A dd build with shadcn ui.",
       "registryDependencies": ["sonner"],
       "dependencies": ["lucide-react"],
@@ -301,7 +301,7 @@
       "title": "action-bar",
       "description": "A action bar build with shadcn.",
       "registryDependencies": ["button"],
-      "dependencies": ["lucide-react"],
+      "dependencies": ["lucide-react", "@base-ui/react"],
       "files": [
         {
           "path": "registry/ui/action-bar.tsx",
@@ -341,6 +341,7 @@
       "type": "registry:component",
       "title": "status",
       "description": "status build with shadcn.",
+      "dependencies": ["@base-ui/react"],
       "files": [
         {
           "path": "registry/ui/status.tsx",
@@ -354,6 +355,7 @@
       "type": "registry:component",
       "title": "editable",
       "description": "editable build with shadcn.",
+      "dependencies": ["@base-ui/react"],
       "files": [
         {
           "path": "registry/ui/editable.tsx",
@@ -372,6 +374,11 @@
           "path": "registry/ui/compare-slider.tsx",
           "type": "registry:component",
           "target": "@components/ui/compare-slider.tsx"
+        },
+        {
+          "path": "lib/support/number.ts",
+          "type": "registry:lib",
+          "target": "@lib/support/number.ts"
         }
       ]
     },
@@ -402,7 +409,8 @@
       "type": "registry:component",
       "title": "speed-dial",
       "description": "speed-dial build with shadcn.",
-      "dependencies": ["popover", "button", "@base-ui/react"],
+      "dependencies": ["@base-ui/react"],
+      "registryDependencies": ["popover", "button", "@base-ui/react"],
       "files": [
         {
           "path": "registry/ui/speed-dial.tsx",

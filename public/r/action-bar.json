@@ -4,7 +4,8 @@
   "title": "action-bar",
   "description": "A action bar build with shadcn.",
   "dependencies": [
-    "lucide-react"
+    "lucide-react",
+    "@base-ui/react"
   ],
   "registryDependencies": [
     "button"

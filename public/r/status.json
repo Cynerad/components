@@ -3,6 +3,9 @@
   "name": "status",
   "title": "status",
   "description": "status build with shadcn.",
+  "dependencies": [
+    "@base-ui/react"
+  ],
   "files": [
     {
       "path": "registry/ui/status.tsx",
