@@ -49,7 +49,7 @@ export default function Home() {
           render={({ field, fieldState }) => (
             <Field data-invalid={fieldState.invalid}>
               <FieldLabel htmlFor="form-rhf-demo-title">Title</FieldLabel>
-              <TagsInput items={frameworks} selectedItems={field.value} setSelectedItemsAction={field.onChange} />
+              <TagsInput items={frameworks} selectedItems={field.value} setSelectedItemsAction={field.onChange} canAddExtraTag />
               {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
             </Field>
           )}
