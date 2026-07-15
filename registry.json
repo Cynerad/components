@@ -418,6 +418,39 @@
           "target": "@components/ui/speed-dial.tsx"
         }
       ]
+    },
+    {
+      "name": "marquee",
+      "type": "registry:component",
+      "title": "marquee",
+      "description": "marquee build with shadcn.",
+      "dependencies": ["lucide-react"],
+      "files": [
+        {
+          "path": "registry/ui/marquee/index.tsx",
+          "type": "registry:component",
+          "target": "@components/ui/marquee/index.tsx"
+        },
+        {
+          "path": "registry/ui/marquee/marquee.css",
+          "type": "registry:style",
+          "target": "@components/ui/marquee/marquee.css"
+        }
+      ]
+    },
+    {
+      "name": "masonry",
+      "type": "registry:component",
+      "title": "masonry",
+      "description": "masonry build with shadcn.",
+      "dependencies": ["lucide-react"],
+      "files": [
+        {
+          "path": "registry/ui/masonry.tsx",
+          "type": "registry:component",
+          "target": "@components/ui/masonry.tsx"
+        }
+      ]
     }
   ]
 }

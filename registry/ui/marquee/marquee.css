@@ -1,0 +1,32 @@
+@keyframes marquee-left {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(calc(-100% - var(--marquee-gap)));
+  }
+}
+@keyframes marquee-right {
+  from {
+    transform: translateX(calc(-100% - var(--marquee-gap)));
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+@keyframes marquee-up {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(calc(-100% - var(--marquee-gap)));
+  }
+}
+@keyframes marquee-down {
+  from {
+    transform: translateY(calc(-100% - var(--marquee-gap)));
+  }
+  to {
+    transform: translateY(0);
+  }
+}

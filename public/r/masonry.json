@@ -1,0 +1,18 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "masonry",
+  "title": "masonry",
+  "description": "masonry build with shadcn.",
+  "dependencies": [
+    "lucide-react"
+  ],
+  "files": [
+    {
+      "path": "registry/ui/masonry.tsx",
+      "content": "\"use client\";\n\nimport { cn } from \"@/lib/utils\";\nimport { Children, ComponentProps, ReactNode } from \"react\";\n\nconst COLUMN_CLASS: Record<number, string> = {\n  1: \"columns-1\",\n  2: \"columns-2\",\n  3: \"columns-3\",\n  4: \"columns-4\",\n  5: \"columns-5\",\n  6: \"columns-6\",\n};\n\nconst SM_COLUMN_CLASS: Record<number, string> = {\n  1: \"sm:columns-1\",\n  2: \"sm:columns-2\",\n  3: \"sm:columns-3\",\n  4: \"sm:columns-4\",\n  5: \"sm:columns-5\",\n  6: \"sm:columns-6\",\n};\n\nconst MD_COLUMN_CLASS: Record<number, string> = {\n  1: \"md:columns-1\",\n  2: \"md:columns-2\",\n  3: \"md:columns-3\",\n  4: \"md:columns-4\",\n  5: \"md:columns-5\",\n  6: \"md:columns-6\",\n};\n\nconst LG_COLUMN_CLASS: Record<number, string> = {\n  1: \"lg:columns-1\",\n  2: \"lg:columns-2\",\n  3: \"lg:columns-3\",\n  4: \"lg:columns-4\",\n  5: \"lg:columns-5\",\n  6: \"lg:columns-6\",\n};\n\nconst XL_COLUMN_CLASS: Record<number, string> = {\n  1: \"xl:columns-1\",\n  2: \"xl:columns-2\",\n  3: \"xl:columns-3\",\n  4: \"xl:columns-4\",\n  5: \"xl:columns-5\",\n  6: \"xl:columns-6\",\n};\n\ninterface MasonryColumns {\n  default: number;\n  sm?: number;\n  md?: number;\n  lg?: number;\n  xl?: number;\n}\n\ntype MasonryType = {\n  children: ReactNode;\n  columns?: MasonryColumns;\n  gap?: number;\n} & ComponentProps<\"div\">;\n\nfunction Masonry({ children, columns = { default: 1, sm: 2, lg: 3, xl: 4 }, gap = 2, className, ref, ...props }: MasonryType) {\n  const gapRem = `${gap * 0.25}rem`;\n\n  return (\n    <div\n      ref={ref}\n      className={cn(\n        COLUMN_CLASS[columns.default],\n        columns.sm && SM_COLUMN_CLASS[columns.sm],\n        columns.md && MD_COLUMN_CLASS[columns.md],\n        columns.lg && LG_COLUMN_CLASS[columns.lg],\n        columns.xl && XL_COLUMN_CLASS[columns.xl],\n        className,\n      )}\n      style={{ columnGap: gapRem, ...props.style }}\n      {...props}\n    >\n      {Children.map(children, (child, i) => (\n        <div key={i} className=\"break-inside-avoid\" style={{ marginBottom: gapRem }}>\n          {child}\n        </div>\n      ))}\n    </div>\n  );\n}\n\nexport { Masonry };\n",
+      "type": "registry:component",
+      "target": "@components/ui/masonry.tsx"
+    }
+  ],
+  "type": "registry:component"
+}
