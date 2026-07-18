@@ -451,6 +451,21 @@
           "target": "@components/ui/masonry.tsx"
         }
       ]
+    },
+    {
+      "name": "banner",
+      "type": "registry:component",
+      "title": "banner",
+      "description": "banner build with shadcn.",
+      "dependencies": ["lucide-react", "@base-ui/react"],
+      "registryDependencies": ["button"],
+      "files": [
+        {
+          "path": "registry/ui/banner.tsx",
+          "type": "registry:component",
+          "target": "@components/ui/banner.tsx"
+        }
+      ]
     }
   ]
 }

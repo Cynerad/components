@@ -15,7 +15,7 @@
     },
     {
       "path": "registry/ui/marquee/marquee.css",
-      "content": "@keyframes marquee-left {\n  from {\n    transform: translateX(0);\n  }\n  to {\n    transform: translateX(calc(-100% - var(--marquee-gap)));\n  }\n}\n@keyframes marquee-right {\n  from {\n    transform: translateX(calc(-100% - var(--marquee-gap)));\n  }\n  to {\n    transform: translateX(0);\n  }\n}\n@keyframes marquee-up {\n  from {\n    transform: translateY(0);\n  }\n  to {\n    transform: translateY(calc(-100% - var(--marquee-gap)));\n  }\n}\n@keyframes marquee-down {\n  from {\n    transform: translateY(calc(-100% - var(--marquee-gap)));\n  }\n  to {\n    transform: translateY(0);\n  }\n}",
+      "content": "@keyframes marquee-left {\n  from {\n    transform: translateX(0);\n  }\n  to {\n    transform: translateX(calc(-100% - var(--marquee-gap)));\n  }\n}\n@keyframes marquee-right {\n  from {\n    transform: translateX(calc(-100% - var(--marquee-gap)));\n  }\n  to {\n    transform: translateX(0);\n  }\n}\n@keyframes marquee-up {\n  from {\n    transform: translateY(0);\n  }\n  to {\n    transform: translateY(calc(-100% - var(--marquee-gap)));\n  }\n}\n@keyframes marquee-down {\n  from {\n    transform: translateY(calc(-100% - var(--marquee-gap)));\n  }\n  to {\n    transform: translateY(0);\n  }\n}\n",
       "type": "registry:style",
       "target": "@components/ui/marquee/marquee.css"
     }
