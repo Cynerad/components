@@ -466,6 +466,22 @@
           "target": "@components/ui/banner.tsx"
         }
       ]
+    },
+
+    {
+      "name": "stepper",
+      "type": "registry:component",
+      "title": "stepper",
+      "description": "stepper build with shadcn.",
+      "dependencies": ["lucide-react", "@base-ui/react"],
+      "registryDependencies": ["button"],
+      "files": [
+        {
+          "path": "registry/ui/stepper.tsx",
+          "type": "registry:component",
+          "target": "@components/ui/stepper.tsx"
+        }
+      ]
     }
   ]
 }
