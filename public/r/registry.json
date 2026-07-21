@@ -467,7 +467,6 @@
         }
       ]
     },
-
     {
       "name": "stepper",
       "type": "registry:component",
@@ -480,6 +479,29 @@
           "path": "registry/ui/stepper.tsx",
           "type": "registry:component",
           "target": "@components/ui/stepper.tsx"
+        }
+      ]
+    },
+    {
+      "name": "file-upload",
+      "type": "registry:component",
+      "title": "file-upload",
+      "description": "file-upload build with shadcn.",
+      "dependencies": ["lucide-react", "@base-ui/react"],
+      "registryDependencies": ["button", "direction"],
+      "files": [
+        {
+          "path": "registry/ui/file-upload.tsx",
+          "type": "registry:component",
+          "target": "@components/ui/file-upload.tsx"
+        },
+        {
+          "path": "hooks/use-lazy-ref.ts",
+          "type": "registry:hook"
+        },
+        {
+          "path": "hooks/use-as-ref.ts",
+          "type": "registry:hook"
         }
       ]
     }
