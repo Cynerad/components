@@ -504,6 +504,21 @@
           "type": "registry:hook"
         }
       ]
+    },
+    {
+      "name": "notification",
+      "type": "registry:component",
+      "title": "notification",
+      "description": "notification build with shadcn.",
+      "dependencies": ["lucide-react", "@base-ui/react"],
+      "registryDependencies": ["button", "dropdown", "separator"],
+      "files": [
+        {
+          "path": "registry/ui/notification.tsx",
+          "type": "registry:component",
+          "target": "@components/ui/notification.tsx"
+        }
+      ]
     }
   ]
 }
