@@ -1,0 +1,15 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "translation-provider",
+  "title": "translation-provider",
+  "description": "translation-provider build with shadcn.",
+  "files": [
+    {
+      "path": "registry/providers/translation-provider.tsx",
+      "content": "import { createContext, ReactNode, useContext, useState } from \"react\";\n\nexport type LanguageType = \"en\" | \"fa\";\n\nexport type DirectionType = \"ltr\" | \"rtl\";\n\nexport type TranslationsType<T extends Record<string, string> = Record<string, string>> = Record<\n  LanguageType,\n  {\n    dir: DirectionType;\n    locale?: string;\n    values: T;\n  }\n>;\n\nexport const languageOptions = [\n  { value: \"en\", label: \"English\" },\n  { value: \"fa\", label: \"Persian (فارسی)\" },\n] as const;\n\ntype LanguageContextType = {\n  language: LanguageType;\n  setLanguage: (language: LanguageType) => void;\n};\n\nconst LanguageContext = createContext<LanguageContextType | null>(null);\n\nexport function LanguageProvider({ children, defaultLanguage = \"en\" }: { children: ReactNode; defaultLanguage?: LanguageType }) {\n  const [language, setLanguage] = useState<LanguageType>(defaultLanguage);\n\n  const context = {\n    language,\n    setLanguage,\n  };\n\n  return <LanguageContext value={context}>{children}</LanguageContext>;\n}\n\nexport function useLanguageContext() {\n  const context = useContext(LanguageContext);\n  return context;\n}\n\nexport function useTranslation<T extends Record<string, string>>(translations: TranslationsType<T>, defaultLanguage: LanguageType = \"en\") {\n  const context = useLanguageContext();\n  const [localLanguage, setLocalLanguage] = useState<LanguageType>(defaultLanguage);\n\n  const language = context?.language ?? localLanguage;\n  const setLanguage = context?.setLanguage ?? setLocalLanguage;\n\n  const { dir, locale, values: t } = translations[language];\n  return { language, setLanguage, dir, locale, t };\n}\n",
+      "type": "registry:component",
+      "target": "@components/providers/translation-provider.tsx"
+    }
+  ],
+  "type": "registry:component"
+}

@@ -538,6 +538,19 @@
           "type": "registry:hook"
         }
       ]
+    },
+    {
+      "name": "translation-provider",
+      "type": "registry:component",
+      "title": "translation-provider",
+      "description": "translation-provider build with shadcn.",
+      "files": [
+        {
+          "path": "registry/providers/translation-provider.tsx",
+          "type": "registry:component",
+          "target": "@components/providers/translation-provider.tsx"
+        }
+      ]
     }
   ]
 }
