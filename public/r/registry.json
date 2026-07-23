@@ -519,6 +519,25 @@
           "target": "@components/ui/notification.tsx"
         }
       ]
+    },
+    {
+      "name": "mask-input",
+      "type": "registry:component",
+      "title": "mask-input",
+      "description": "mask-input build with shadcn.",
+      "dependencies": ["lucide-react", "@base-ui/react", "react-imask"],
+      "registryDependencies": ["button", "input"],
+      "files": [
+        {
+          "path": "registry/ui/mask-input.tsx",
+          "type": "registry:component",
+          "target": "@components/ui/mask-input.tsx"
+        },
+        {
+          "path": "hooks/use-composed-refs.ts",
+          "type": "registry:hook"
+        }
+      ]
     }
   ]
 }
