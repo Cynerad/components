@@ -325,7 +325,7 @@ function StepperTrigger({ render, className, onClick: onClickProp, disabled, ...
 
   const itemValue = itemContext.value;
 
-  const curretStep = useStore((state) => state.currentStep);
+  const currentStep = useStore((state) => state.currentStep);
   const steps = useStore((state) => state.steps);
   const stepState = useStore((state) => state.steps.get(itemValue));
 
@@ -337,9 +337,9 @@ function StepperTrigger({ render, className, onClick: onClickProp, disabled, ...
   const stepPosition = stepIndex + 1;
   const stepCount = steps.size;
   const isDisabled = disabled || stepState?.disabled;
-  const isActive = curretStep === itemValue;
+  const isActive = currentStep === itemValue;
 
-  const dataState = getDataState(curretStep, itemValue, stepState, steps);
+  const dataState = getDataState(currentStep, itemValue, stepState, steps);
 
   const onClick = useCallback(
     (event: MouseEvent<HTMLButtonElement>) => {
@@ -384,7 +384,6 @@ function StepperTrigger({ render, className, onClick: onClickProp, disabled, ...
 }
 
 function StepperIndicator({ render, className, children, ...props }: StepperIndicatorType) {
-  const { orientation } = useStepperContext("StepperIndicator");
   const itemContext = useStepperItemContext("StepperIndicator");
 
   const currentStep = useStore((state) => state.currentStep);
@@ -501,7 +500,6 @@ function StepperDescription({ render, className, ...props }: StepperDescriptionT
 }
 
 function StepperContent({ render, value: valueProp, forceMount = false, className, ...props }: StepperContentType) {
-  const { orientation } = useStepperContext("StepperContent");
   const currentStep = useStore((state) => state.currentStep);
 
   const element = useRender({
@@ -573,7 +571,7 @@ function StepperPrev({ render = <Button />, onClick: onClickProp, disabled, ...p
 }
 
 function StepperNext({ render = <Button />, onClick: onClickProp, disabled, ...props }: StepperNextType) {
-  const store = useStoreContext("Steppernext");
+  const store = useStoreContext("StepperNext");
   const currentStep = useStore((state) => state.currentStep);
   const steps = useStore((state) => state.steps);
 

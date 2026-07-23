@@ -28,5 +28,6 @@ export function useKeyPress(key: string, cb: (event: KeyboardEvent) => void, opt
   useEffect(() => {
     const cleanup = onListen();
     return cleanup;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [onListen]);
 }
