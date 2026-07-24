@@ -1,10 +1,10 @@
 import { useEffect, useRef } from "react";
 
 function useTimeout(callback: () => void, delay: number | null): void {
-  const savedCallback = useRef(callback);
+  const savedCallbackRef = useRef(callback);
 
   useEffect(() => {
-    savedCallback.current = callback;
+    savedCallbackRef.current = callback;
   }, [callback]);
 
   useEffect(() => {
@@ -13,7 +13,7 @@ function useTimeout(callback: () => void, delay: number | null): void {
     }
 
     const id = setTimeout(() => {
-      savedCallback.current();
+      savedCallbackRef.current();
     }, delay);
 
     return () => {

@@ -12,7 +12,7 @@ function useSet<T>(values?: T[]) {
   }
 
   function deleteItem(...args: T[]) {
-    setSet(new Set([...set].filter((x) => !args.includes(x))));
+    setSet(new Set([...set].filter(x => !args.includes(x))));
   }
 
   function hasItem(item: T) {

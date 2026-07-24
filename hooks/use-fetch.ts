@@ -63,7 +63,8 @@ function useFetch<T = unknown>(url: string, options?: RequestInit): FetchState<T
         if (!ignore) {
           dispatch({ type: "fetched", payload: json });
         }
-      } catch (err) {
+      }
+      catch (err) {
         if (!ignore) {
           dispatch({
             type: "error",

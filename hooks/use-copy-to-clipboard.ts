@@ -18,10 +18,12 @@ function useCopyToClipboard() {
         if (navigator?.clipboard?.writeText) {
           await navigator.clipboard.writeText(value);
           setState(value);
-        } else {
+        }
+        else {
           throw new Error("writeText not supported");
         }
-      } catch {
+      }
+      catch {
         oldSchoolCopy(value);
         setState(value);
       }

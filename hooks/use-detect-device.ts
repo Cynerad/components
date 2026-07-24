@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 
 export type deviceType = "Mobile" | "Tablet" | "Desktop";
 
@@ -15,7 +15,7 @@ export type DeviceState = {
  * @returns {DeviceState} The type of device the code is running on.
  */
 
-export const useDetectDevice = (): DeviceState => {
+export function useDetectDevice(): DeviceState {
   const [deviceState, setDeviceState] = useState<DeviceState>({
     isSupported: true,
     deviceType: "Desktop",
@@ -27,7 +27,7 @@ export const useDetectDevice = (): DeviceState => {
   useEffect(() => {
     const handleDeviceDetection = () => {
       if (typeof navigator === "undefined") {
-        setDeviceState((prevState) => ({
+        setDeviceState(prevState => ({
           ...prevState,
           isSupported: false,
         }));
@@ -35,8 +35,8 @@ export const useDetectDevice = (): DeviceState => {
       }
 
       const userAgent = navigator.userAgent.toLowerCase();
-      const isMobile = /iphone|ipad|ipod|android|blackberry|windows phone/g.test(userAgent);
-      const isTablet = /(ipad|tablet|playbook|silk)|(android(?!.*mobile))/g.test(userAgent);
+      const isMobile = /iphone|ipad|ipod|android|blackberry|windows phone/.test(userAgent);
+      const isTablet = /(ipad|tablet|playbook|silk)|(android(?!.*mobile))/.test(userAgent);
 
       if (isMobile) {
         setDeviceState({
@@ -46,7 +46,8 @@ export const useDetectDevice = (): DeviceState => {
           isTablet: false,
           isDesktop: false,
         });
-      } else if (isTablet) {
+      }
+      else if (isTablet) {
         setDeviceState({
           isSupported: true,
           deviceType: "Tablet",
@@ -54,7 +55,8 @@ export const useDetectDevice = (): DeviceState => {
           isTablet: true,
           isDesktop: false,
         });
-      } else {
+      }
+      else {
         setDeviceState({
           isSupported: true,
           deviceType: "Desktop",
@@ -73,4 +75,4 @@ export const useDetectDevice = (): DeviceState => {
   }, []);
 
   return deviceState;
-};
+}

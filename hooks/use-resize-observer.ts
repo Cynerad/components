@@ -22,36 +22,39 @@ const initialSize: Size = {
 
 export function useResizeObserver<T extends HTMLElement = HTMLElement>(options: UseResizeObserverOptions<T>): Size {
   const { ref, box = "content-box" } = options;
-  const [{ width, height }, setSize] = useState<Size>(initialSize);
+  const [size, setSize] = useState<Size>(initialSize);
   const isMounted = useIsMounted();
-  const previousSize = useRef<Size>({ ...initialSize });
-  const onResize = useRef<((size: Size) => void) | undefined>(undefined);
+  const previousSizeRef = useRef<Size>({ ...initialSize });
+  const onResizeRef = useRef<((size: Size) => void) | undefined>(undefined);
   useEffect(() => {
-    onResize.current = options.onResize;
+    onResizeRef.current = options.onResize;
   }, [options.onResize]);
 
   useEffect(() => {
-    if (!ref?.current) return;
+    if (!ref?.current)
+      return;
 
-    if (typeof window === "undefined" || !("ResizeObserver" in window)) return;
+    if (typeof window === "undefined" || !("ResizeObserver" in window))
+      return;
 
     const observer = new ResizeObserver(([entry]) => {
-      const boxProp =
-        box === "border-box" ? "borderBoxSize" : box === "device-pixel-content-box" ? "devicePixelContentBoxSize" : "contentBoxSize";
+      const boxProp
+        = box === "border-box" ? "borderBoxSize" : box === "device-pixel-content-box" ? "devicePixelContentBoxSize" : "contentBoxSize";
 
       const newWidth = extractSize(entry!, boxProp, "inlineSize");
       const newHeight = extractSize(entry!, boxProp, "blockSize");
 
-      const hasChanged = previousSize.current.width !== newWidth || previousSize.current.height !== newHeight;
+      const hasChanged = previousSizeRef.current.width !== newWidth || previousSizeRef.current.height !== newHeight;
 
       if (hasChanged) {
         const newSize: Size = { width: newWidth, height: newHeight };
-        previousSize.current.width = newWidth;
-        previousSize.current.height = newHeight;
+        previousSizeRef.current.width = newWidth;
+        previousSizeRef.current.height = newHeight;
 
-        if (onResize.current) {
-          onResize.current(newSize);
-        } else {
+        if (onResizeRef.current) {
+          onResizeRef.current(newSize);
+        }
+        else {
           if (isMounted()) {
             setSize(newSize);
           }
@@ -66,7 +69,7 @@ export function useResizeObserver<T extends HTMLElement = HTMLElement>(options: 
     };
   }, [box, ref, isMounted]);
 
-  return { width, height };
+  return size;
 }
 
 type BoxSizesKey = keyof Pick<ResizeObserverEntry, "borderBoxSize" | "contentBoxSize" | "devicePixelContentBoxSize">;

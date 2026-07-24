@@ -14,7 +14,7 @@ function useToggle(initialValue: boolean) {
       return setOn(value);
     }
 
-    return setOn((v) => !v);
+    return setOn(v => !v);
   }, []);
 
   return [on, handleToggle];

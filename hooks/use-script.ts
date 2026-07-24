@@ -42,6 +42,7 @@ function useScript(src: string | null, options?: UseScriptOptions): UseScriptSta
     const cachedScriptStatus = cachedScriptStatuses.get(src);
     if (cachedScriptStatus === "ready" || cachedScriptStatus === "error") {
       // If the script is already cached, set its status immediately
+
       // eslint-disable-next-line react-hooks/set-state-in-effect
       setStatus(cachedScriptStatus);
       return;
@@ -73,7 +74,8 @@ function useScript(src: string | null, options?: UseScriptOptions): UseScriptSta
 
       scriptNode.addEventListener("load", setAttributeFromEvent);
       scriptNode.addEventListener("error", setAttributeFromEvent);
-    } else {
+    }
+    else {
       // Grab existing script status from attribute and set to state.
       setStatus(script.status ?? cachedScriptStatus ?? "loading");
     }

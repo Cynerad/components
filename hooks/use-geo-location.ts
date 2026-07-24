@@ -48,7 +48,7 @@ export function useGeolocation(options: PositionOptions = {}) {
     };
 
     const onEventError = (error: GeolocationPositionError) => {
-      setState((s) => ({
+      setState(s => ({
         ...s,
         loading: false,
         error,

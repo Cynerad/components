@@ -1,4 +1,5 @@
 import { useState } from "react";
+
 import useIsomorphicLayoutEffect from "@/hooks/use-isomorphic-layout-effect";
 
 export type UseOSReturnValue = "undetermined" | "macos" | "ios" | "windows" | "android" | "linux" | "chromeos";
@@ -67,9 +68,9 @@ function getOS(): UseOSReturnValue {
   return "undetermined";
 }
 
-export interface UseOsOptions {
+export type UseOsOptions = {
   getValueInEffect: boolean;
-}
+};
 
 export function useOs(options: UseOsOptions = { getValueInEffect: true }): UseOSReturnValue {
   const [value, setValue] = useState<UseOSReturnValue>(options.getValueInEffect ? "undetermined" : getOS());

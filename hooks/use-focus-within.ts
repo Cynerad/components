@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from "react";
+
 import useCallbackRef from "@/hooks/use-callback-ref";
 
 function containsRelatedTarget(event: FocusEvent) {
@@ -9,15 +10,15 @@ function containsRelatedTarget(event: FocusEvent) {
   return false;
 }
 
-export interface UseFocusWithinOptions {
+export type UseFocusWithinOptions = {
   onFocus?: (event: FocusEvent) => void;
   onBlur?: (event: FocusEvent) => void;
-}
+};
 
-export interface UseFocusWithinReturnValue<T extends HTMLElement = HTMLElement> {
+export type UseFocusWithinReturnValue<T extends HTMLElement = HTMLElement> = {
   ref: React.RefCallback<T | null>;
   focused: boolean;
-}
+};
 
 function useFocusWithin<T extends HTMLElement = HTMLElement>({
   onBlur,
@@ -25,7 +26,7 @@ function useFocusWithin<T extends HTMLElement = HTMLElement>({
 }: UseFocusWithinOptions = {}): UseFocusWithinReturnValue<T> {
   const [focused, setFocused] = useState(false);
   const focusedRef = useRef(false);
-  const previousNode = useRef<T | null>(null);
+  const previousNodeRef = useRef<T | null>(null);
 
   const onFocusRef = useCallbackRef(onFocus);
   const onBlurRef = useCallbackRef(onBlur);
@@ -57,25 +58,26 @@ function useFocusWithin<T extends HTMLElement = HTMLElement>({
         return;
       }
 
-      if (previousNode.current) {
-        previousNode.current.removeEventListener("focusin", handleFocusIn);
-        previousNode.current.removeEventListener("focusout", handleFocusOut);
+      if (previousNodeRef.current) {
+        previousNodeRef.current.removeEventListener("focusin", handleFocusIn);
+        previousNodeRef.current.removeEventListener("focusout", handleFocusOut);
       }
 
       node.addEventListener("focusin", handleFocusIn);
       node.addEventListener("focusout", handleFocusOut);
-      previousNode.current = node;
+      previousNodeRef.current = node;
     },
     [handleFocusIn, handleFocusOut],
   );
 
   useEffect(
     () => () => {
-      if (previousNode.current) {
-        previousNode.current.removeEventListener("focusin", handleFocusIn);
-        previousNode.current.removeEventListener("focusout", handleFocusOut);
+      if (previousNodeRef.current) {
+        previousNodeRef.current.removeEventListener("focusin", handleFocusIn);
+        previousNodeRef.current.removeEventListener("focusout", handleFocusOut);
       }
     },
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [],
   );

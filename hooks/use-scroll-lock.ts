@@ -1,5 +1,6 @@
-import useIsomorphicLayoutEffect from "@/hooks/use-isomorphic-layout-effect";
 import { useRef, useState } from "react";
+
+import useIsomorphicLayoutEffect from "@/hooks/use-isomorphic-layout-effect";
 
 type UseScrollLockOptions = {
   autoLock?: boolean;
@@ -28,41 +29,41 @@ const IS_SERVER = typeof window === "undefined";
 export default function useScrollLock(options: UseScrollLockOptions = {}): UseScrollLockReturn {
   const { autoLock = true, lockTarget, widthReflow = true } = options;
   const [isLocked, setIsLocked] = useState(false);
-  const target = useRef<HTMLElement | null>(null);
-  const originalStyle = useRef<OriginalStyle | null>(null);
+  const targetRef = useRef<HTMLElement | null>(null);
+  const originalStyleRef = useRef<OriginalStyle | null>(null);
 
   const lock = () => {
-    if (target.current) {
-      const { overflow, paddingRight } = target.current.style;
+    if (targetRef.current) {
+      const { overflow, paddingRight } = targetRef.current.style;
 
       // Save the original styles
-      originalStyle.current = { overflow, paddingRight };
+      originalStyleRef.current = { overflow, paddingRight };
 
       // Prevent width reflow
       if (widthReflow) {
         // Use window inner width if body is the target as global scrollbar isn't part of the document
-        const offsetWidth = target.current === document.body ? window.innerWidth : target.current.offsetWidth;
+        const offsetWidth = targetRef.current === document.body ? window.innerWidth : targetRef.current.offsetWidth;
         // Get current computed padding right in pixels
-        const currentPaddingRight = parseInt(window.getComputedStyle(target.current).paddingRight, 10) || 0;
+        const currentPaddingRight = Number.parseInt(window.getComputedStyle(targetRef.current).paddingRight, 10) || 0;
 
-        const scrollbarWidth = offsetWidth - target.current.scrollWidth;
-        target.current.style.paddingRight = `${scrollbarWidth + currentPaddingRight}px`;
+        const scrollbarWidth = offsetWidth - targetRef.current.scrollWidth;
+        targetRef.current.style.paddingRight = `${scrollbarWidth + currentPaddingRight}px`;
       }
 
       // Lock the scroll
-      target.current.style.overflow = "hidden";
+      targetRef.current.style.overflow = "hidden";
 
       setIsLocked(true);
     }
   };
 
   const unlock = () => {
-    if (target.current && originalStyle.current) {
-      target.current.style.overflow = originalStyle.current.overflow;
+    if (targetRef.current && originalStyleRef.current) {
+      targetRef.current.style.overflow = originalStyleRef.current.overflow;
 
       // Only reset padding right if we changed it
       if (widthReflow) {
-        target.current.style.paddingRight = originalStyle.current.paddingRight;
+        targetRef.current.style.paddingRight = originalStyleRef.current.paddingRight;
       }
     }
 
@@ -70,14 +71,15 @@ export default function useScrollLock(options: UseScrollLockOptions = {}): UseSc
   };
 
   useIsomorphicLayoutEffect(() => {
-    if (IS_SERVER) return;
+    if (IS_SERVER)
+      return;
 
     if (lockTarget) {
-      target.current = typeof lockTarget === "string" ? document.querySelector(lockTarget) : lockTarget;
+      targetRef.current = typeof lockTarget === "string" ? document.querySelector(lockTarget) : lockTarget;
     }
 
-    if (!target.current) {
-      target.current = document.body;
+    if (!targetRef.current) {
+      targetRef.current = document.body;
     }
 
     if (autoLock) {

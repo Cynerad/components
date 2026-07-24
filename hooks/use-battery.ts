@@ -5,9 +5,20 @@ type BatteryManager = {
   chargingTime: number;
   dischargingTime: number;
   level: number;
-  addEventListener: (type: "levelchange" | "chargingchange" | "chargingtimechange" | "dischargingtimechange", listener: () => void) => void;
+  addEventListener: (
+    type:
+      | "levelchange"
+      | "chargingchange"
+      | "chargingtimechange"
+      | "dischargingtimechange",
+    listener: () => void,
+  ) => void;
   removeEventListener: (
-    type: "levelchange" | "chargingchange" | "chargingtimechange" | "dischargingtimechange",
+    type:
+      | "levelchange"
+      | "chargingchange"
+      | "chargingtimechange"
+      | "dischargingtimechange",
     listener: () => void,
   ) => void;
 } & EventTarget;
@@ -32,7 +43,8 @@ function useBattery(): BatteryState {
   });
 
   useEffect(() => {
-    if (typeof window === "undefined") return;
+    if (typeof window === "undefined")
+      return;
 
     const navigatorWithBattery = navigator as Navigator & {
       getBattery?: () => Promise<BatteryManager>;
@@ -40,7 +52,7 @@ function useBattery(): BatteryState {
 
     if (!navigatorWithBattery.getBattery) {
       queueMicrotask(() => {
-        setState((s) => ({
+        setState(s => ({
           ...s,
           supported: false,
           loading: false,
@@ -50,9 +62,11 @@ function useBattery(): BatteryState {
     }
 
     let battery: BatteryManager | null = null;
+    const controller = new AbortController();
 
     const updateState = () => {
-      if (!battery) return;
+      if (!battery)
+        return;
       setState({
         supported: true,
         loading: false,
@@ -66,18 +80,15 @@ function useBattery(): BatteryState {
     navigatorWithBattery.getBattery().then((b) => {
       battery = b;
       updateState();
-      b.addEventListener("levelchange", updateState);
-      b.addEventListener("chargingchange", updateState);
-      b.addEventListener("chargingtimechange", updateState);
-      b.addEventListener("dischargingtimechange", updateState);
+      const opts = { signal: controller.signal };
+      b.addEventListener("levelchange", updateState, opts);
+      b.addEventListener("chargingchange", updateState, opts);
+      b.addEventListener("chargingtimechange", updateState, opts);
+      b.addEventListener("dischargingtimechange", updateState, opts);
     });
 
     return () => {
-      if (!battery) return;
-      battery.removeEventListener("levelchange", updateState);
-      battery.removeEventListener("chargingchange", updateState);
-      battery.removeEventListener("chargingtimechange", updateState);
-      battery.removeEventListener("dischargingtimechange", updateState);
+      controller.abort();
     };
   }, []);
 

@@ -4,13 +4,13 @@ function useIntersectionObserver<T extends Element>(options: IntersectionObserve
   const { threshold = 1, root = null, rootMargin = "0px" } = options;
   const [entry, setEntry] = useState<IntersectionObserverEntry>();
 
-  const previousObserver = useRef<IntersectionObserver | null>(null);
+  const previousObserverRef = useRef<IntersectionObserver | null>(null);
 
   const customRef = useCallback(
     (node: T | null) => {
-      if (previousObserver.current) {
-        previousObserver.current.disconnect();
-        previousObserver.current = null;
+      if (previousObserverRef.current) {
+        previousObserverRef.current.disconnect();
+        previousObserverRef.current = null;
       }
 
       if (node?.nodeType === Node.ELEMENT_NODE) {
@@ -22,7 +22,7 @@ function useIntersectionObserver<T extends Element>(options: IntersectionObserve
         );
 
         observer.observe(node);
-        previousObserver.current = observer;
+        previousObserverRef.current = observer;
       }
     },
     [threshold, root, rootMargin],

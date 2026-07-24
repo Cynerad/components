@@ -10,7 +10,8 @@ export function useKeyPress(key: string, cb: (event: KeyboardEvent) => void, opt
   const { event = "keydown", target = window, eventOptions } = options;
 
   const onListen = useEffectEvent(() => {
-    if (!target?.addEventListener) return;
+    if (!target?.addEventListener)
+      return;
 
     const handler = (e: KeyboardEvent) => {
       if (e.key === key) {
@@ -28,6 +29,5 @@ export function useKeyPress(key: string, cb: (event: KeyboardEvent) => void, opt
   useEffect(() => {
     const cleanup = onListen();
     return cleanup;
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [onListen]);
+  }, []);
 }

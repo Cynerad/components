@@ -2,17 +2,18 @@ import { useEffect, useRef, useState } from "react";
 
 function useThrottle<T>(value: T, interval: number = 500) {
   const [throttledValue, setThrottledValue] = useState(value);
-  const lastUpdated = useRef<number | null>(null);
+  const lastUpdatedRef = useRef<number | null>(null);
 
   useEffect(() => {
     const now = Date.now();
 
-    if (lastUpdated.current && now >= lastUpdated.current + interval) {
-      lastUpdated.current = now;
+    if (lastUpdatedRef.current && now >= lastUpdatedRef.current + interval) {
+      lastUpdatedRef.current = now;
       setThrottledValue(value);
-    } else {
+    }
+    else {
       const id = window.setTimeout(() => {
-        lastUpdated.current = now;
+        lastUpdatedRef.current = now;
         setThrottledValue(value);
       }, interval);
 

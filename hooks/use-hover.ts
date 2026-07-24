@@ -2,7 +2,7 @@ import { useCallback, useRef, useState } from "react";
 
 export function useHover() {
   const [hovering, setHovering] = useState(false);
-  const previousNode = useRef<HTMLElement | null>(null);
+  const previousNodeRef = useRef<HTMLElement | null>(null);
 
   const handleMouseEnter = useCallback(() => {
     setHovering(true);
@@ -14,9 +14,9 @@ export function useHover() {
 
   const customRef = useCallback(
     (node: HTMLElement | null) => {
-      if (previousNode.current?.nodeType === Node.ELEMENT_NODE) {
-        previousNode.current.removeEventListener("mouseenter", handleMouseEnter);
-        previousNode.current.removeEventListener("mouseleave", handleMouseLeave);
+      if (previousNodeRef.current?.nodeType === Node.ELEMENT_NODE) {
+        previousNodeRef.current.removeEventListener("mouseenter", handleMouseEnter);
+        previousNodeRef.current.removeEventListener("mouseleave", handleMouseLeave);
       }
 
       if (node?.nodeType === Node.ELEMENT_NODE) {
@@ -24,7 +24,7 @@ export function useHover() {
         node.addEventListener("mouseleave", handleMouseLeave);
       }
 
-      previousNode.current = node;
+      previousNodeRef.current = node;
     },
     [handleMouseEnter, handleMouseLeave],
   );

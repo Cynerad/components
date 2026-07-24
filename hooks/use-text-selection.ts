@@ -1,11 +1,11 @@
-import { useState, useEffect, useCallback } from "react";
+import { useCallback, useEffect, useState } from "react";
 
-interface SelectionRect {
+type SelectionRect = {
   top: number;
   left: number;
   width: number;
   height: number;
-}
+};
 
 function useTextSelection() {
   const [text, setText] = useState("");

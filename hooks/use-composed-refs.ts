@@ -41,7 +41,8 @@ function composeRefs<T>(...refs: PossibleRef<T>[]): React.RefCallback<T> {
           const cleanup = cleanups[i];
           if (typeof cleanup === "function") {
             cleanup();
-          } else {
+          }
+          else {
             setRef(refs[i], null);
           }
         }

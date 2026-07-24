@@ -25,7 +25,7 @@ function useBoolean(defaultValue = false): UseBooleanReturn {
   }, []);
 
   const toggle = useCallback(() => {
-    setValue((x) => !x);
+    setValue(x => !x);
   }, []);
 
   return { value, setValue, setTrue, setFalse, toggle };

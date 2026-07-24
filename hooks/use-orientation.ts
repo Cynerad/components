@@ -9,6 +9,7 @@ export function useOrientation() {
   useLayoutEffect(() => {
     const handleChange = () => {
       const { angle, type } = window.screen.orientation;
+
       setOrientation({
         angle,
         type,
@@ -25,7 +26,8 @@ export function useOrientation() {
     if (window.screen?.orientation) {
       handleChange();
       window.screen.orientation.addEventListener("change", handleChange);
-    } else {
+    }
+    else {
       handle_orientationchange();
       window.addEventListener("orientationchange", handle_orientationchange);
     }
@@ -33,8 +35,12 @@ export function useOrientation() {
     return () => {
       if (window.screen?.orientation) {
         window.screen.orientation.removeEventListener("change", handleChange);
-      } else {
-        window.removeEventListener("orientationchange", handle_orientationchange);
+      }
+      else {
+        window.removeEventListener(
+          "orientationchange",
+          handle_orientationchange,
+        );
       }
     };
   }, []);

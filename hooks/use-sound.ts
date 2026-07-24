@@ -57,7 +57,8 @@ export function useSound<T extends SpriteMap | undefined = undefined>(url: strin
       sprite: sprite as HowlOptions["sprite"],
       onload() {
         const howl = howlRef.current;
-        if (!howl) return;
+        if (!howl)
+          return;
         setIsLoading(false);
         setIsLoaded(true);
         setDuration(howl.duration() * 1000);
@@ -90,10 +91,12 @@ export function useSound<T extends SpriteMap | undefined = undefined>(url: strin
 
     const { soundEnabled, interrupt, volume } = optsRef.current;
 
-    if (!forceSoundEnabled && !soundEnabled) return;
+    if (!forceSoundEnabled && !soundEnabled)
+      return;
 
     const howl = howlRef.current;
-    if (!howl) return;
+    if (!howl)
+      return;
 
     if (callPlaybackRate !== undefined) {
       howl.rate(callPlaybackRate);
@@ -105,7 +108,8 @@ export function useSound<T extends SpriteMap | undefined = undefined>(url: strin
 
     if (id) {
       howl.play(id as string);
-    } else {
+    }
+    else {
       howl.volume(volume);
       howl.play();
     }

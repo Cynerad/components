@@ -19,10 +19,12 @@ function useMeasure() {
       observerRef.current = null;
     }
 
-    if (!node) return;
+    if (!node)
+      return;
 
     const observer = new ResizeObserver(([entry]) => {
-      if (!entry) return;
+      if (!entry)
+        return;
 
       const boxSize = Array.isArray(entry.borderBoxSize) ? entry.borderBoxSize[0] : entry.borderBoxSize;
 

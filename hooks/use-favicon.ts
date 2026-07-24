@@ -10,7 +10,8 @@ function useFavicon(url: string) {
       link.rel = "icon";
       link.href = url;
       document.head.appendChild(link);
-    } else {
+    }
+    else {
       link.href = url;
     }
   }, [url]);

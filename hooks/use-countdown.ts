@@ -21,7 +21,7 @@ export default function useCountdown({
   intervalMs = 1000,
   isIncrement = false,
 }: CountdownOptions): [number, CountdownControllers] {
-  const savedCallback = useRef(() => {});
+  const savedCallbackRef = useRef(() => {});
 
   const [count, setCount] = useState(countStart);
   const increment = useCallback(() => setCount(count + 1), [count]);
@@ -46,20 +46,21 @@ export default function useCountdown({
 
     if (isIncrement) {
       increment();
-    } else {
+    }
+    else {
       decrement();
     }
   }, [count, countStop, decrement, increment, isIncrement, stopCountdown]);
 
   useEffect(() => {
-    savedCallback.current = countdownCallback;
+    savedCallbackRef.current = countdownCallback;
   });
 
   const delay = isCountdownRunning ? intervalMs : null;
 
   useEffect(() => {
     if (delay !== null) {
-      const interval = setInterval(() => savedCallback.current(), delay || 0);
+      const interval = setInterval(() => savedCallbackRef.current(), delay || 0);
       return () => clearInterval(interval);
     }
 

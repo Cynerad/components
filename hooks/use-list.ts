@@ -8,19 +8,19 @@ function useList<T>(defaultList: T[] = []) {
   }, []);
 
   const push = useCallback((element: T) => {
-    setList((l) => [...l, element]);
+    setList(l => [...l, element]);
   }, []);
 
   const removeAt = useCallback((index: number) => {
-    setList((l) => [...l.slice(0, index), ...l.slice(index + 1)]);
+    setList(l => [...l.slice(0, index), ...l.slice(index + 1)]);
   }, []);
 
   const insertAt = useCallback((index: number, element: T) => {
-    setList((l) => [...l.slice(0, index), element, ...l.slice(index)]);
+    setList(l => [...l.slice(0, index), element, ...l.slice(index)]);
   }, []);
 
   const updateAt = useCallback((index: number, element: T) => {
-    setList((l) => l.map((e, i) => (i === index ? element : e)));
+    setList(l => l.map((e, i) => (i === index ? element : e)));
   }, []);
 
   const clear = useCallback(() => setList([]), []);

@@ -20,7 +20,8 @@ function subscribe(onStoreChange: () => void): () => void {
       window.removeEventListener("online", onStoreChange);
       window.removeEventListener("offline", onStoreChange);
     };
-  } else {
+  }
+  else {
     console.warn("useOnline: window is undefined.");
     return () => {};
   }

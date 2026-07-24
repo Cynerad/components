@@ -1,7 +1,9 @@
 import { useLayoutEffect, useState } from "react";
 
 function useWindowSize() {
-  const [size, setSize] = useState<Readonly<{ width: number | null; height: number | null }>>({
+  const [size, setSize] = useState<
+    Readonly<{ width: number | null; height: number | null }>
+  >({
     width: null,
     height: null,
   });

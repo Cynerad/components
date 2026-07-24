@@ -26,9 +26,9 @@ function isTouchEvent(e: Event): e is TouchEvent {
 function useLongPress(callback: (e: MouseEvent | TouchEvent) => void, options: LongPressOptions = {}): LongPressEventHandlers {
   const { threshold = 400, onStart, onFinish, onCancel } = options;
 
-  const isLongPressActive = useRef(false);
-  const isPressed = useRef(false);
-  const timerId = useRef<number | undefined>(undefined);
+  const isLongPressActiveRef = useRef(false);
+  const isPressedRef = useRef(false);
+  const timerIdRef = useRef<number | undefined>(undefined);
 
   return useMemo(() => {
     if (typeof callback !== "function") {
@@ -36,32 +36,38 @@ function useLongPress(callback: (e: MouseEvent | TouchEvent) => void, options: L
     }
 
     const start = (event: MouseEvent | TouchEvent) => {
-      if (!isMouseEvent(event) && !isTouchEvent(event)) return;
+      if (!isMouseEvent(event) && !isTouchEvent(event))
+        return;
 
-      if (onStart) onStart(event);
+      if (onStart)
+        onStart(event);
 
-      isPressed.current = true;
-      timerId.current = window.setTimeout(() => {
+      isPressedRef.current = true;
+      timerIdRef.current = window.setTimeout(() => {
         callback(event);
-        isLongPressActive.current = true;
+        isLongPressActiveRef.current = true;
       }, threshold);
     };
 
     const cancel = (event: MouseEvent | TouchEvent) => {
-      if (!isMouseEvent(event) && !isTouchEvent(event)) return;
+      if (!isMouseEvent(event) && !isTouchEvent(event))
+        return;
 
-      if (isLongPressActive.current) {
-        if (onFinish) onFinish(event);
-      } else if (isPressed.current) {
-        if (onCancel) onCancel(event);
+      if (isLongPressActiveRef.current) {
+        if (onFinish)
+          onFinish(event);
+      }
+      else if (isPressedRef.current) {
+        if (onCancel)
+          onCancel(event);
       }
 
-      isLongPressActive.current = false;
-      isPressed.current = false;
+      isLongPressActiveRef.current = false;
+      isPressedRef.current = false;
 
-      if (timerId.current !== undefined) {
-        window.clearTimeout(timerId.current);
-        timerId.current = undefined;
+      if (timerIdRef.current !== undefined) {
+        window.clearTimeout(timerIdRef.current);
+        timerIdRef.current = undefined;
       }
     };
 

@@ -1,6 +1,6 @@
 import { useCallback, useSyncExternalStore } from "react";
 
-export interface UseActiveElementOptions {
+export type UseActiveElementOptions = {
   /**
    * Whether to resolve the deepest focused node inside open shadow roots.
    * @default true
@@ -11,7 +11,7 @@ export interface UseActiveElementOptions {
    * @default false
    */
   triggerOnRemoval?: boolean;
-}
+};
 
 function resolveActiveElement(deep: boolean): Element | null {
   if (typeof document === "undefined") {
@@ -31,7 +31,9 @@ function resolveActiveElement(deep: boolean): Element | null {
   return activeElement;
 }
 
-export function useActiveElement<T extends Element = HTMLElement>(options: UseActiveElementOptions = {}): T | null {
+export function useActiveElement<T extends Element = HTMLElement>(
+  options: UseActiveElementOptions = {},
+): T | null {
   const { deep = true, triggerOnRemoval = false } = options;
 
   const subscribe = useCallback(
@@ -53,8 +55,8 @@ export function useActiveElement<T extends Element = HTMLElement>(options: UseAc
       window.addEventListener("focus", onFocus, true);
       window.addEventListener("blur", onBlur, true);
 
-      const observer =
-        triggerOnRemoval && typeof MutationObserver !== "undefined"
+      const observer
+        = triggerOnRemoval && typeof MutationObserver !== "undefined"
           ? new MutationObserver(() => {
               onStoreChange();
             })

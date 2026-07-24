@@ -18,25 +18,28 @@ export type HistoryState<T> = {
   canRedo: boolean;
 };
 
-function useHistoryStateReducer<T>(state: HistoryStateType<T>, action: HistoryAction<T>): HistoryStateType<T> {
+function historyStateReducer<T>(state: HistoryStateType<T>, action: HistoryAction<T>): HistoryStateType<T> {
   const { past, present, future } = state;
   switch (action.type) {
     case "UNDO":
-      if (past.length === 0) return state;
+      if (past.length === 0)
+        return state;
       return {
         past: past.slice(0, past.length - 1),
         present: past[past.length - 1] as T,
         future: [present, ...future],
       };
     case "REDO":
-      if (future.length === 0) return state;
+      if (future.length === 0)
+        return state;
       return {
         past: [...past, present],
         present: future[0] as T,
         future: future.slice(1),
       };
     case "SET":
-      if (action.newPresent === present) return state;
+      if (action.newPresent === present)
+        return state;
       return {
         past: [...past, present],
         present: action.newPresent,
@@ -56,17 +59,19 @@ function useHistoryStateReducer<T>(state: HistoryStateType<T>, action: HistoryAc
 function useHistoryState<T>(initialPresent: T): HistoryState<T> {
   const initialPresentRef = useRef(initialPresent);
 
-  const [state, dispatch] = useReducer(useHistoryStateReducer<T>, initialPresent, (present) => ({ past: [], present, future: [] }));
+  const [state, dispatch] = useReducer(historyStateReducer<T>, initialPresent, present => ({ past: [], present, future: [] }));
 
   const canUndo = state.past.length > 0;
   const canRedo = state.future.length > 0;
 
   const undo = useCallback(() => {
-    if (canUndo) dispatch({ type: "UNDO" });
+    if (canUndo)
+      dispatch({ type: "UNDO" });
   }, [canUndo]);
 
   const redo = useCallback(() => {
-    if (canRedo) dispatch({ type: "REDO" });
+    if (canRedo)
+      dispatch({ type: "REDO" });
   }, [canRedo]);
 
   const set = useCallback((newPresent: T) => dispatch({ type: "SET", newPresent }), []);

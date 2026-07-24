@@ -1,20 +1,22 @@
-import { useCallback, useEffect, useRef, useState, type RefCallback } from "react";
+import type { RefCallback } from "react";
 
-interface PrefixedDocument extends Document {
+import { useCallback, useEffect, useRef, useState } from "react";
+
+type PrefixedDocument = {
   webkitFullscreenElement?: Element | null;
   mozFullScreenElement?: Element | null;
   msFullscreenElement?: Element | null;
   webkitExitFullscreen?: () => Promise<void>;
   msExitFullscreen?: () => Promise<void>;
   mozCancelFullScreen?: () => Promise<void>;
-}
+} & Document;
 
-interface PrefixedElement extends HTMLElement {
+type PrefixedElement = {
   webkitRequestFullscreen?: () => Promise<void>;
   webkitEnterFullscreen?: () => Promise<void>;
   msRequestFullscreen?: () => Promise<void>;
   mozRequestFullscreen?: () => Promise<void>;
-}
+} & HTMLElement;
 
 function getFullscreenElement(): Element | null {
   const doc = document as PrefixedDocument;
@@ -24,10 +26,14 @@ function getFullscreenElement(): Element | null {
 function exitFullscreen(): Promise<void> {
   const doc = document as PrefixedDocument;
 
-  if (typeof doc.exitFullscreen === "function") return doc.exitFullscreen();
-  if (typeof doc.msExitFullscreen === "function") return doc.msExitFullscreen();
-  if (typeof doc.webkitExitFullscreen === "function") return doc.webkitExitFullscreen();
-  if (typeof doc.mozCancelFullScreen === "function") return doc.mozCancelFullScreen();
+  if (typeof doc.exitFullscreen === "function")
+    return doc.exitFullscreen();
+  if (typeof doc.msExitFullscreen === "function")
+    return doc.msExitFullscreen();
+  if (typeof doc.webkitExitFullscreen === "function")
+    return doc.webkitExitFullscreen();
+  if (typeof doc.mozCancelFullScreen === "function")
+    return doc.mozCancelFullScreen();
 
   return Promise.resolve();
 }
@@ -35,18 +41,18 @@ function exitFullscreen(): Promise<void> {
 function enterFullScreen(element: HTMLElement): Promise<void> {
   const el = element as PrefixedElement;
 
-  const fn =
-    el.requestFullscreen ?? el.msRequestFullscreen ?? el.webkitEnterFullscreen ?? el.webkitRequestFullscreen ?? el.mozRequestFullscreen;
+  const fn
+    = el.requestFullscreen ?? el.msRequestFullscreen ?? el.webkitEnterFullscreen ?? el.webkitRequestFullscreen ?? el.mozRequestFullscreen;
 
   return fn ? fn.call(el) : Promise.resolve();
 }
 
 const prefixes = ["", "webkit", "moz", "ms"] as const;
 
-interface FullscreenEvents {
+type FullscreenEvents = {
   onFullScreen: (event: Event) => void;
   onError: (event: Event) => void;
-}
+};
 
 function addEvents(element: HTMLElement, events: FullscreenEvents) {
   const { onFullScreen, onError } = events;
@@ -67,19 +73,19 @@ function removeEvents(element: HTMLElement, { onFullScreen, onError }: Fullscree
 
 // --- Element-scoped fullscreen ---
 
-export interface UseFullscreenElementReturnValue<T extends HTMLElement> {
+export type UseFullscreenElementReturnValue<T extends HTMLElement> = {
   ref: RefCallback<T | null>;
   toggle: () => Promise<void>;
   fullscreen: boolean;
-}
+};
 
 export function useFullscreenElement<T extends HTMLElement = HTMLDivElement>(): UseFullscreenElementReturnValue<T> {
   const [fullscreen, setFullscreen] = useState(false);
-  const refElement = useRef<T | null>(null);
+  const elementRef = useRef<T | null>(null);
   const prevNodeRef = useRef<T | null>(null);
 
   const handleFullscreenChange = useCallback(() => {
-    setFullscreen(refElement.current === getFullscreenElement());
+    setFullscreen(elementRef.current === getFullscreenElement());
   }, []);
 
   const handleFullscreenError = useCallback(() => {
@@ -87,9 +93,10 @@ export function useFullscreenElement<T extends HTMLElement = HTMLDivElement>(): 
   }, []);
 
   const toggle = useCallback(async () => {
-    if (!getFullscreenElement() && refElement.current) {
-      await enterFullScreen(refElement.current);
-    } else {
+    if (!getFullscreenElement() && elementRef.current) {
+      await enterFullScreen(elementRef.current);
+    }
+    else {
       await exitFullscreen();
     }
   }, []);
@@ -109,9 +116,9 @@ export function useFullscreenElement<T extends HTMLElement = HTMLDivElement>(): 
       });
     }
 
-    refElement.current = node;
+    elementRef.current = node;
     prevNodeRef.current = node;
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return { ref: refCallback, toggle, fullscreen };
@@ -119,10 +126,10 @@ export function useFullscreenElement<T extends HTMLElement = HTMLDivElement>(): 
 
 // --- Document-scoped fullscreen ---
 
-export interface UseFullscreenDocumentReturnValue {
+export type UseFullscreenDocumentReturnValue = {
   toggle: () => Promise<void>;
   fullscreen: boolean;
-}
+};
 
 export function useFullscreenDocument(): UseFullscreenDocumentReturnValue {
   const [fullscreen, setFullscreen] = useState(false);
@@ -138,7 +145,8 @@ export function useFullscreenDocument(): UseFullscreenDocumentReturnValue {
   const toggle = useCallback(async () => {
     if (!getFullscreenElement()) {
       await enterFullScreen(document.documentElement);
-    } else {
+    }
+    else {
       await exitFullscreen();
     }
   }, []);

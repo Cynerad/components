@@ -13,7 +13,8 @@ export function useInViewport(ref: React.RefObject<HTMLElement | null>, options:
   const observerRef = useRef<IntersectionObserver | null>(null);
 
   useEffect(() => {
-    if (typeof window === "undefined" || !ref.current) return;
+    if (typeof window === "undefined" || !ref.current)
+      return;
 
     observerRef.current = new IntersectionObserver(
       ([entry]) => {
@@ -30,7 +31,7 @@ export function useInViewport(ref: React.RefObject<HTMLElement | null>, options:
     return () => {
       observerRef.current?.disconnect();
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [root, rootMargin, threshold, once]);
 
   return isInView;

@@ -12,7 +12,7 @@ type UseMapActions<K, V> = {
 type UseMapReturn<K, V> = [Omit<Map<K, V>, "set" | "clear" | "delete">, UseMapActions<K, V>];
 
 function useMap<K, V>(initialState: MapOrEntries<K, V> = new Map()): UseMapReturn<K, V> {
-  const [map, setMap] = useState(new Map(initialState));
+  const [map, setMap] = useState(() => new Map(initialState));
 
   const actions: UseMapActions<K, V> = {
     set: useCallback((key, value) => {

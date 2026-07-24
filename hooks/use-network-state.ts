@@ -22,6 +22,7 @@ type NetworkState = {
 };
 
 declare global {
+   
   interface Navigator {
     connection?: NetworkInformation;
     mozConnection?: NetworkInformation;
@@ -30,25 +31,32 @@ declare global {
 }
 
 function getConnection(): NetworkInformation | undefined {
-  return navigator?.connection || navigator?.mozConnection || navigator?.webkitConnection;
+  return (
+    navigator?.connection ||
+    navigator?.mozConnection ||
+    navigator?.webkitConnection
+  );
 }
 
 function isShallowEqual<T extends object>(a: T, b: T) {
-  if (Object.is(a, b)) return true;
+  if (Object.is(a, b))
+    return true;
 
   const aKeys = Object.keys(a) as (keyof T)[];
   const bKeys = Object.keys(b) as (keyof T)[];
 
-  if (aKeys.length !== bKeys.length) return false;
+  if (aKeys.length !== bKeys.length)
+    return false;
 
   for (const key of aKeys) {
-    if (!Object.is(a[key], b[key])) return false;
+    if (!Object.is(a[key], b[key]))
+      return false;
   }
 
   return true;
 }
 
-function useNetworkStateSubscribe(onStoreChange: () => void) {
+function networkStateSubscribe(onStoreChange: () => void) {
   const handler = () => onStoreChange();
 
   window.addEventListener("online", handler, { passive: true });
@@ -74,7 +82,7 @@ function getNetworkStateServerSnapshot(): never {
 }
 
 export function useNetworkState(): NetworkState {
-  const cache = useRef<NetworkState | null>(null);
+  const cacheRef = useRef<NetworkState | null>(null);
 
   const getSnapshot = (): NetworkState => {
     const online = navigator.onLine;
@@ -90,13 +98,17 @@ export function useNetworkState(): NetworkState {
       type: connection?.type,
     };
 
-    if (cache.current && isShallowEqual(cache.current, nextState)) {
-      return cache.current;
+    if (cacheRef.current && isShallowEqual(cacheRef.current, nextState)) {
+      return cacheRef.current;
     }
 
-    cache.current = nextState;
+    cacheRef.current = nextState;
     return nextState;
   };
 
-  return useSyncExternalStore(useNetworkStateSubscribe, getSnapshot, getNetworkStateServerSnapshot);
+  return useSyncExternalStore(
+    networkStateSubscribe,
+    getSnapshot,
+    getNetworkStateServerSnapshot,
+  );
 }
